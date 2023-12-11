@@ -1,8 +1,11 @@
 package io.datajek.moneytransferrest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +19,21 @@ public class BankUserController {
     @GetMapping("/ping")
     public String ping(){
         return "pong";
+    }
+
+    @PostMapping("/transfer/{id}/{amount}")
+    public BankUser transferMoney(@PathVariable int id, @PathVariable BigDecimal amount){
+        return service.transferMoney(id, amount);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        boolean isAuthenticated = service.authenticate(username, password);
+        if (isAuthenticated) {
+            return ResponseEntity.ok("Login exitoso para el usuario: " + username);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+        }
     }
 
     @GetMapping("/{id}")

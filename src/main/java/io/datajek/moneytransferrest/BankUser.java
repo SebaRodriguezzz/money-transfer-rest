@@ -1,10 +1,8 @@
 package io.datajek.moneytransferrest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -19,6 +17,12 @@ public class BankUser {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
     private BigDecimal balance;
+
+    @Nullable
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "credentials_id")
+    private UserCredentials credentials;
+
 
     public BankUser(){}
     public BankUser(String name, String nationality, Date birthDate, BigDecimal balance) {
@@ -66,5 +70,13 @@ public class BankUser {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public UserCredentials getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(UserCredentials credentials) {
+        this.credentials = credentials;
     }
 }

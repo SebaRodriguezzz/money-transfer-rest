@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +17,25 @@ import java.util.Optional;
 public class BankUserService {
     @Autowired
     BankUserRepository repo;
+
+    @Autowired
+    private UserCredentialsRepository credentialsRepository;
+
+    public BankUser transferMoney(int id, BigDecimal amount){
+        Optional<BankUser> user = repo.findById(id);
+
+        if(user.isEmpty())
+            throw new BankUserNotFoundException("User with id {" + id + "} not found");
+
+        BankUser u =  user.get();
+        u.setBalance(u.getBalance().add(amount));
+        return repo.save(u);
+    }
+
+    public boolean authenticate(String username, String password) {
+        Optional<UserCredentials> userCredentials = credentialsRepository.findByUsername(username);
+        return userCredentials.isPresent() && userCredentials.get().getPassword().equals(password);
+    }
 
     public BankUser getUser(int id) {
         Optional<BankUser> tempUser = repo.findById(id);
@@ -45,20 +65,19 @@ public class BankUserService {
     }
 
     public BankUser patch(int id, Map<String, Object> UserPatch){
-        Optional<BankUser> User = repo.findById(id);
+        Optional<BankUser> user = repo.findById(id);
 
-        if (User.isPresent()){
+        if (user.isPresent()){
             UserPatch.forEach((key, value) -> {
                 Field field = ReflectionUtils.findField(BankUser.class, key);
                 ReflectionUtils.makeAccessible(field);
-                ReflectionUtils.setField(field, User.get(), value);
+                ReflectionUtils.setField(field, user.get(), value);
             });
         } else
             throw new BankUserNotFoundException("User with id {"+ id +"} not found");
 
-        return repo.save(User.get());
+        return repo.save(user.get());
     }
-
 
     public void deleteUser(int id) {
         Optional<BankUser> tempUser = repo.findById(id);
