@@ -1,5 +1,6 @@
 package io.datajek.moneytransferrest;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,15 @@ public class BankUserController {
     }
 
     @PostMapping("/transfer/{id}/{amount}")
-    public BankUser transferMoney(@PathVariable int id, @PathVariable BigDecimal amount){
-        return service.transferMoney(id, amount);
+    public BankUser transferMoney(@PathVariable int id, @PathVariable BigDecimal amount, HttpSession session){
+        return service.transferMoney(id, amount, session.getAttribute("loggedInUser").toString());
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
         boolean isAuthenticated = service.authenticate(username, password);
         if (isAuthenticated) {
+            session.setAttribute("loggedInUser", username);
             return ResponseEntity.ok("Login exitoso para el usuario: " + username);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");

@@ -21,14 +21,17 @@ public class BankUserService {
     @Autowired
     private UserCredentialsRepository credentialsRepository;
 
-    public BankUser transferMoney(int id, BigDecimal amount){
+    public BankUser transferMoney(int id, BigDecimal amount, String senderUsername){
         Optional<BankUser> user = repo.findById(id);
+        Optional<BankUser> sender = repo.findByCredentialsUsername(senderUsername);
 
         if(user.isEmpty())
             throw new BankUserNotFoundException("User with id {" + id + "} not found");
 
         BankUser u =  user.get();
+        BankUser s = sender.get();
         u.setBalance(u.getBalance().add(amount));
+        s.setBalance(s.getBalance().subtract(amount));
         return repo.save(u);
     }
 
