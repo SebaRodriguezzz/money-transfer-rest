@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest;
+package io.datajek.moneytransferrest.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.annotation.Nullable;
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-public class BankUser {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,8 +24,8 @@ public class BankUser {
     private UserCredentials credentials;
 
 
-    public BankUser(){}
-    public BankUser(String name, String nationality, Date birthDate, BigDecimal balance) {
+    public UserEntity(){}
+    public UserEntity(String name, String nationality, Date birthDate, BigDecimal balance) {
         this.name = name;
         this.nationality = nationality;
         this.birthDate = birthDate;
@@ -78,5 +78,13 @@ public class BankUser {
 
     public void setCredentials(UserCredentials credentials) {
         this.credentials = credentials;
+    }
+
+    public void addBalance(BigDecimal amount){
+        this.balance = this.balance.add(amount);
+    }
+
+    public void subtractBalance(BigDecimal amount){
+        this.balance = this.balance.subtract(amount);
     }
 }

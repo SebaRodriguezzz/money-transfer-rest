@@ -1,17 +1,17 @@
-package io.datajek.moneytransferrest;
+package io.datajek.moneytransferrest.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.ZonedDateTime;
 
-public class BankUserErrorResponse {
+public class UserErrorResponse {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private ZonedDateTime timestamp;
     private int statusCode;
     private String path;
     private String message;
 
-    public BankUserErrorResponse(ZonedDateTime timestamp, int statusCode, String path, String message) {
+    public UserErrorResponse(ZonedDateTime timestamp, int statusCode, String path, String message) {
         this.timestamp = timestamp;
         this.statusCode = statusCode;
         this.path = path;

@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest;
+package io.datajek.moneytransferrest.model;
 
 import jakarta.persistence.*;
 

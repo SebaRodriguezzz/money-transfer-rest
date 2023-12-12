@@ -1,5 +1,7 @@
-package io.datajek.moneytransferrest;
+package io.datajek.moneytransferrest.handler;
 
+import io.datajek.moneytransferrest.exception.UserErrorResponse;
+import io.datajek.moneytransferrest.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.ZonedDateTime;
 
 @ControllerAdvice
-public class BankUserExceptionHandler {
+public class UserExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<BankUserErrorResponse> playerNotFoundHandler(BankUserNotFoundException ex, HttpServletRequest req){
+    public ResponseEntity<UserErrorResponse> playerNotFoundHandler(UserNotFoundException ex, HttpServletRequest req){
 
-        BankUserErrorResponse error = new BankUserErrorResponse(
+        UserErrorResponse error = new UserErrorResponse(
                 ZonedDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
                 req.getRequestURI(),
@@ -24,8 +26,8 @@ public class BankUserExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<BankUserErrorResponse> genericHandler (Exception ex, HttpServletRequest req){
-        BankUserErrorResponse error = new BankUserErrorResponse(
+    public ResponseEntity<UserErrorResponse> genericHandler (Exception ex, HttpServletRequest req){
+        UserErrorResponse error = new UserErrorResponse(
                 ZonedDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 req.getRequestURI(),
