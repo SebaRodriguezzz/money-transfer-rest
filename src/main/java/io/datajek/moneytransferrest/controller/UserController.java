@@ -5,6 +5,7 @@ import io.datajek.moneytransferrest.dto.UserDTO;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.service.UserMapper;
 import io.datajek.moneytransferrest.service.UserService;
+import io.datajek.moneytransferrest.service.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,9 @@ public class UserController {
     private final UserMapper userMapper;
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserServiceImpl userService, UserMapper userMapper) {
         this.userService = userService;
-        this.userMapper = new UserMapper();
+        this.userMapper = userMapper;
     }
     
     @PostMapping("/transfer/{id}/{amount}")
