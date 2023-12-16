@@ -47,6 +47,13 @@ public class UserController {
         }
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        return ResponseEntity.ok("Logout successful");
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable int id) {
         UserEntity userEntity = userService.getUser(id);
