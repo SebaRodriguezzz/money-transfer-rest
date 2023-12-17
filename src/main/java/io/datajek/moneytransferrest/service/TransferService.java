@@ -5,6 +5,7 @@ import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -14,6 +15,7 @@ public class TransferService {
     @Autowired
     UserRepository userRepo;
 
+    @Transactional(rollbackFor = TransactionFailedException.class)
     public void performTransaction(UserEntity user, UserEntity sender, BigDecimal amount) {
         try {
             user.addBalance(amount);
