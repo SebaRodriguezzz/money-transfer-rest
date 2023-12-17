@@ -2,14 +2,16 @@ package io.datajek.moneytransferrest.service;
 
 import io.datajek.moneytransferrest.dto.TransferDTO;
 import io.datajek.moneytransferrest.exception.SameAccountTransferException;
-import io.datajek.moneytransferrest.exception.TransactionFailedException;
 import io.datajek.moneytransferrest.exception.UserNotFoundException;
 import io.datajek.moneytransferrest.exception.InsufficientFundsException;
 import io.datajek.moneytransferrest.model.UserCredentials;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.UserRepository;
 import io.datajek.moneytransferrest.repository.UserCredentialsRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -61,9 +63,14 @@ public class UserServiceImpl implements UserService{
         return new TransferDTO(Instant.now(), sender.getAccountNumber(), user.getAccountNumber(), amount);
     }
 
-    public boolean authenticate(String username, String password) {
+    public ResponseEntity<String> authenticate(String username, String password, HttpSession session) {
         Optional<UserCredentials> userCredentials = credentialsRepository.findByUsername(username);
-        return userCredentials.isPresent() && userCredentials.get().getPassword().equals(password);
+        if (userCredentials.isPresent() && userCredentials.get().getPassword().equals(password)) {
+            session.setAttribute("loggedInUser", username);
+            return ResponseEntity.ok("Successful login. User: " + username);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
     }
 
     public UserEntity findById(int id) {

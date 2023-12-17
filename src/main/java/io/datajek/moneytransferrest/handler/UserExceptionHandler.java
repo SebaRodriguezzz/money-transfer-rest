@@ -2,6 +2,7 @@ package io.datajek.moneytransferrest.handler;
 
 import io.datajek.moneytransferrest.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,14 +13,31 @@ import java.time.ZonedDateTime;
 @ControllerAdvice
 public class UserExceptionHandler {
 
+
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> insufficientFundsHandler(InsufficientFundsException ex, HttpServletRequest req){
+        return buildErrorResponse(ex, req, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> invalidLoginHandler(InvalidLoginException ex, HttpServletRequest req){
+        return buildErrorResponse(ex, req, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> sameAccountTransferHandler(SameAccountTransferException ex, HttpServletRequest req){
+        return buildErrorResponse(ex, req, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> TransactionFailed(TransactionFailedException ex, HttpServletRequest req){
+        return buildErrorResponse(ex, req, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler
     public ResponseEntity<UserErrorResponse> userNotFoundHandler(UserNotFoundException ex, HttpServletRequest req){
         return buildErrorResponse(ex, req, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler({InvalidLoginException.class, TransactionFailedException.class, InsufficientFundsException.class, SameAccountTransferException.class})
-    public ResponseEntity<UserErrorResponse> specificExceptionHandler(Exception ex, HttpServletRequest req, HttpStatus status) {
-        return buildErrorResponse(ex, req, status);
     }
 
     @ExceptionHandler

@@ -1,5 +1,6 @@
 package io.datajek.moneytransferrest.model;
 
+import io.datajek.moneytransferrest.service.UserService;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,6 +11,7 @@ public class UserCredentials {
 
     private String username;
     private String password;
+
     public int getId() {
         return id;
     }
