@@ -1,7 +1,6 @@
 package io.datajek.moneytransferrest.handler;
 
-import io.datajek.moneytransferrest.exception.UserErrorResponse;
-import io.datajek.moneytransferrest.exception.UserNotFoundException;
+import io.datajek.moneytransferrest.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,27 +13,27 @@ import java.time.ZonedDateTime;
 public class UserExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<UserErrorResponse> playerNotFoundHandler(UserNotFoundException ex, HttpServletRequest req){
+    public ResponseEntity<UserErrorResponse> userNotFoundHandler(UserNotFoundException ex, HttpServletRequest req){
+        return buildErrorResponse(ex, req, HttpStatus.NOT_FOUND);
+    }
 
-        UserErrorResponse error = new UserErrorResponse(
-                ZonedDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
-                req.getRequestURI(),
-                ex.getMessage());
-
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    @ExceptionHandler({InvalidLoginException.class, TransactionFailedException.class, InsufficientFundsException.class, SameAccountTransferException.class})
+    public ResponseEntity<UserErrorResponse> specificExceptionHandler(Exception ex, HttpServletRequest req, HttpStatus status) {
+        return buildErrorResponse(ex, req, status);
     }
 
     @ExceptionHandler
     public ResponseEntity<UserErrorResponse> genericHandler (Exception ex, HttpServletRequest req){
+        return buildErrorResponse(ex, req, HttpStatus.BAD_REQUEST);
+    }
+
+    private ResponseEntity<UserErrorResponse> buildErrorResponse(Exception ex, HttpServletRequest req, HttpStatus status) {
         UserErrorResponse error = new UserErrorResponse(
                 ZonedDateTime.now(),
-                HttpStatus.BAD_REQUEST.value(),
+                status.value(),
                 req.getRequestURI(),
                 ex.getMessage());
 
-        return new ResponseEntity<> (error, HttpStatus.BAD_REQUEST);
-
+        return new ResponseEntity<>(error, status);
     }
-
 }
