@@ -5,15 +5,31 @@ import java.time.Instant;
 import java.util.Date;
 
 public class TransferDTO {
-    public Instant date;
-    public String sender;
-    public String receiver;
-    public BigDecimal amount;
+    private Instant date;
+    private Long senderAccountNumber;
+    private Long receiverAccountNumber;
+    private BigDecimal amount;
 
-    public TransferDTO(Instant date, String sender, String receiver, BigDecimal amount) {
+    public TransferDTO(Instant date, Long senderAccountNumber, Long receiverAccountNumber, BigDecimal amount) {
         this.date = date;
-        this.sender = sender;
-        this.receiver = receiver;
+        this.senderAccountNumber = senderAccountNumber;
+        this.receiverAccountNumber = receiverAccountNumber;
         this.amount = amount;
+    }
+
+    public Instant getDate() {
+        return date;
+    }
+
+    public Long getSenderAccountNumber() {
+        return senderAccountNumber;
+    }
+
+    public Long getReceiverAccountNumber() {
+        return receiverAccountNumber;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
     }
 }
