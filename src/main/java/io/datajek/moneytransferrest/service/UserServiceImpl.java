@@ -1,48 +1,48 @@
 package io.datajek.moneytransferrest.service;
 
 import io.datajek.moneytransferrest.dto.TransferDTO;
+import io.datajek.moneytransferrest.exception.SameAccountTransferException;
 import io.datajek.moneytransferrest.exception.TransactionFailedException;
 import io.datajek.moneytransferrest.exception.UserNotFoundException;
 import io.datajek.moneytransferrest.exception.InsufficientFundsException;
 import io.datajek.moneytransferrest.model.UserCredentials;
 import io.datajek.moneytransferrest.model.UserEntity;
-import io.datajek.moneytransferrest.repository.BankUserRepository;
+import io.datajek.moneytransferrest.repository.UserRepository;
 import io.datajek.moneytransferrest.repository.UserCredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
-    BankUserRepository repo;
+    UserRepository repo;
 
     @Autowired
-    private UserCredentialsRepository credentialsRepository;
+    UserCredentialsRepository credentialsRepository;
 
+    @Autowired
+    TransferService transferService;
 
-    public TransferDTO transferMoney(int userId, BigDecimal amount, String senderUsername) {
-        UserEntity user = getUserById(userId);
+    public TransferDTO transferMoney(long receiverAccountNumber, BigDecimal amount, String senderUsername) {
+        UserEntity receiver = findByAccountNumber(receiverAccountNumber);
         UserEntity sender = getSenderByUsername(senderUsername);
-
-        checkSufficientFunds(sender, amount);
-
-        performMoneyTransfer(user, sender, amount);
-
-        return createTransferDTO(sender, user, amount);
+        if (sender.equals(receiver)) {
+            throw new SameAccountTransferException("Sender and receiver accounts are the same");
+        }
+        failIfInsufficientFunds(sender, amount);
+        transferService.performTransaction(receiver, sender, amount);
+        return createTransferDTO(sender, receiver, amount);
     }
 
-    private UserEntity getUserById(int id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User with id {" + id + "} not found"));
+    private UserEntity findByAccountNumber(long receiverAccountNumber) {
+        return repo.findByAccountNumber(receiverAccountNumber)
+                .orElseThrow(() -> new UserNotFoundException("User with account number {" + receiverAccountNumber + "} not found"));
     }
 
     private UserEntity getSenderByUsername(String senderUsername) {
@@ -50,26 +50,15 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(() -> new UserNotFoundException("User with username {" + senderUsername + "} not found"));
     }
 
-    private void checkSufficientFunds(UserEntity sender, BigDecimal amount) {
+    private void failIfInsufficientFunds(UserEntity sender, BigDecimal amount) {
         BigDecimal senderBalance = sender.getBalance();
         if (senderBalance.compareTo(amount) < 0) {
             throw new InsufficientFundsException("Insufficient funds in sender's account");
         }
     }
 
-    private void performMoneyTransfer(UserEntity user, UserEntity sender, BigDecimal amount) {
-        try {
-            user.addBalance(amount);
-            sender.subtractBalance(amount);
-            repo.save(user);
-            repo.save(sender);
-        } catch (Exception e) {
-            throw new TransactionFailedException("Transaction failed: " + e.getMessage());
-        }
-    }
-
     private TransferDTO createTransferDTO(UserEntity sender, UserEntity user, BigDecimal amount) {
-        return new TransferDTO(Instant.now(), sender.getName(), user.getName(), amount);
+        return new TransferDTO(Instant.now(), sender.getAccountNumber(), user.getAccountNumber(), amount);
     }
 
     public boolean authenticate(String username, String password) {
@@ -77,7 +66,7 @@ public class UserServiceImpl implements UserService{
         return userCredentials.isPresent() && userCredentials.get().getPassword().equals(password);
     }
 
-    public UserEntity getUser(int id) {
+    public UserEntity findById(int id) {
         Optional<UserEntity> tempUser = repo.findById(id);
 
         if(tempUser.isEmpty())
@@ -86,15 +75,15 @@ public class UserServiceImpl implements UserService{
         return tempUser.get();
     }
 
-    public List<UserEntity> getAllUsers(){
+    public List<UserEntity> findAll(){
         return repo.findAll();
     }
 
-    public UserEntity addUser(UserEntity p){
+    public UserEntity save(UserEntity p){
         return repo.save(p);
     }
 
-    public UserEntity updateUser(int id, UserEntity p) {
+    public UserEntity update(int id, UserEntity p) {
         Optional<UserEntity> tempUser = repo.findById(id);
 
         if(tempUser.isEmpty())
@@ -104,22 +93,7 @@ public class UserServiceImpl implements UserService{
         return repo.save(p);
     }
 
-    public UserEntity patch(int id, Map<String, Object> UserPatch){
-        Optional<UserEntity> user = repo.findById(id);
-
-        if (user.isPresent()){
-            UserPatch.forEach((key, value) -> {
-                Field field = ReflectionUtils.findField(UserEntity.class, key);
-                ReflectionUtils.makeAccessible(field);
-                ReflectionUtils.setField(field, user.get(), value);
-            });
-        } else
-            throw new UserNotFoundException("User with id {"+ id +"} not found");
-
-        return repo.save(user.get());
-    }
-
-    public void deleteUser(int id) {
+    public void delete(int id) {
         Optional<UserEntity> tempUser = repo.findById(id);
 
         if(tempUser.isEmpty())
