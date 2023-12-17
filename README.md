@@ -12,8 +12,9 @@ Utilizes an H2 in-memory database for storing user-related information.
 Implements basic exception handling to maintain stability during user transactions.
 
 ### Endpoints
-* **POST /login**: Authenticate users.
-* **POST /transfer**: Initiate mock money transfers between users.
+* **POST /users/login**: Authenticate users.
+* **POST /users/transfer**: Initiate mock money transfers between users.
+* **POST /users/logout**: Log out from your account.
 
 ### Technologies Used
 * **Spring**: Lightweight framework for building Java applications.
