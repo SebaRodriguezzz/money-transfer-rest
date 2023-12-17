@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 public class UserEntity {
@@ -17,6 +18,7 @@ public class UserEntity {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
     private BigDecimal balance;
+    private long accountNumber;
 
     @Nullable
     @OneToOne(cascade = CascadeType.ALL)
@@ -30,6 +32,7 @@ public class UserEntity {
         this.nationality = nationality;
         this.birthDate = birthDate;
         this.balance = balance;
+        this.accountNumber = setAccountNumber();
     }
 
     public int getId() {
@@ -86,5 +89,16 @@ public class UserEntity {
 
     public void subtractBalance(BigDecimal amount){
         this.balance = this.balance.subtract(amount);
+    }
+
+    public long getAccountNumber() {
+        return accountNumber;
+    }
+
+    public long setAccountNumber() {
+        long min = 10000000000000000L;
+        long max = 99999999999999999L;
+
+        return ThreadLocalRandom.current().nextLong(min, max);
     }
 }
