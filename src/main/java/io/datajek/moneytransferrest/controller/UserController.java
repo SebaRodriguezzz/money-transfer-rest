@@ -43,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok(isAuthenticated.getBody());
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok("Logout successful");
