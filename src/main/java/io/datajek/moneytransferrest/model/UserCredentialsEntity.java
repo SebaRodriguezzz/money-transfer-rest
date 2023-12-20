@@ -1,16 +1,18 @@
 package io.datajek.moneytransferrest.model;
 
-import io.datajek.moneytransferrest.service.UserService;
 import jakarta.persistence.*;
 
 @Entity
-public class UserCredentials {
+public class UserCredentialsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String username;
     private String password;
+
+    @OneToOne(mappedBy = "credentials", optional = false)
+    private UserEntity user;
 
     public int getId() {
         return id;
@@ -36,4 +38,11 @@ public class UserCredentials {
         this.password = password;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 }
