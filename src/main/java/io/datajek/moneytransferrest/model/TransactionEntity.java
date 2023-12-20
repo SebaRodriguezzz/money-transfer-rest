@@ -10,7 +10,7 @@ public class TransactionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private Instant date;
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -30,7 +30,7 @@ public class TransactionEntity {
         this.amount = amount;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class UserCredentialsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String username;
     private String password;
@@ -14,7 +14,7 @@ public class UserCredentialsEntity {
     @OneToOne(mappedBy = "credentials", optional = false)
     private UserEntity user;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String name;
     private String nationality;
 
@@ -42,7 +42,7 @@ public class UserEntity {
         this.accountNumber = setAccountNumber();
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
