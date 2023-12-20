@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public TransactionEntity transferMoney(TransactionDTO transaction, UserEntity sender) {
         UserEntity receiver = findByAccountNumber(transaction.getReceiverAccountNumber());
-        if (sender.equals(receiver)) {
+        if (sender.getId() == receiver.getId()) {
             throw new SameAccountTransactionException("Sender and receiver accounts are the same");
         }
         failIfInsufficientFunds(sender, transaction.getAmount());

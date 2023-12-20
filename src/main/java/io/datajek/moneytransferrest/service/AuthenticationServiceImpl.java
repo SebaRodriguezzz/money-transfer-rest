@@ -17,6 +17,7 @@ import java.util.Optional;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserCredentialsRepository credentialsRepository;
+    //TODO: password encoder no funciona, invalid credentials todo el tiempo
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
@@ -28,8 +29,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public ResponseEntity<String> authenticate(CredentialsDTO credentials, HttpSession session) {
         Optional<UserCredentialsEntity> userCredentials = credentialsRepository.findByUsername(credentials.getUsername());
 
-        if (userCredentials.isPresent() && passwordEncoder.matches(credentials.getPassword(),
-                userCredentials.get().getPassword())) {
+        if (userCredentials.isPresent() && userCredentials.get().getPassword().equals(credentials.getPassword())) {
             UserEntity user = userCredentials.get().getUser();
             session.setAttribute("loggedInUser", user);
             return ResponseEntity.ok("Successful login. User: " + user.getName());

@@ -3,6 +3,7 @@ package io.datajek.moneytransferrest.service;
 import io.datajek.moneytransferrest.exception.TransactionFailedException;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
+import io.datajek.moneytransferrest.repository.TransactionRepository;
 import io.datajek.moneytransferrest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,12 @@ import java.time.Instant;
 public class TransactionServiceImpl implements TransactionService {
 
     private final UserRepository userRepo;
+    private final TransactionRepository transactionRepo;
 
     @Autowired
-    public TransactionServiceImpl(UserRepository userRepo) {
+    public TransactionServiceImpl(UserRepository userRepo, TransactionRepository transactionRepo) {
         this.userRepo = userRepo;
+        this.transactionRepo = transactionRepo;
     }
 
 
@@ -33,8 +36,9 @@ public class TransactionServiceImpl implements TransactionService {
             throw new TransactionFailedException("Transaction failed: " + e.getMessage());
         }
     }
-    
+
     private TransactionEntity recordTransaction(UserEntity receiver, UserEntity sender, BigDecimal amount) {
-        return new TransactionEntity(Instant.now(), sender, receiver, amount);
+        TransactionEntity transaction = new TransactionEntity(Instant.now(), sender, receiver, amount);
+        return transactionRepo.save(transaction);
     }
 }
