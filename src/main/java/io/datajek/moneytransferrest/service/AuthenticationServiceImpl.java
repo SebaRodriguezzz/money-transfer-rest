@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,16 +17,19 @@ import java.util.Optional;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserCredentialsRepository credentialsRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthenticationServiceImpl(UserCredentialsRepository credentialsRepository) {
+    public AuthenticationServiceImpl(UserCredentialsRepository credentialsRepository, BCryptPasswordEncoder passwordEncoder) {
         this.credentialsRepository = credentialsRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public ResponseEntity<String> authenticate(CredentialsDTO credentials, HttpSession session) {
         Optional<UserCredentialsEntity> userCredentials = credentialsRepository.findByUsername(credentials.getUsername());
 
-        if (userCredentials.isPresent() && userCredentials.get().getPassword().equals(credentials.getPassword())) {
+        if (userCredentials.isPresent() && passwordEncoder.matches(credentials.getPassword(),
+                userCredentials.get().getPassword())) {
             UserEntity user = userCredentials.get().getUser();
             session.setAttribute("loggedInUser", user);
             return ResponseEntity.ok("Successful login. User: " + user.getName());
