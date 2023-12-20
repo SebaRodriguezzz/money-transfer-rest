@@ -25,14 +25,12 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final TransactionMapper transactionMapper;
-    private final AuthenticationService authenticationService;
 
     @Autowired
-    public UserController(UserServiceImpl userService, UserMapper userMapper, TransactionMapper transactionMapper, AuthenticationService authenticationService) {
+    public UserController(UserServiceImpl userService, UserMapper userMapper, TransactionMapper transactionMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.transactionMapper = transactionMapper;
-        this.authenticationService = authenticationService;
     }
 
     @PostMapping("/transfer")
@@ -42,16 +40,6 @@ public class UserController {
                         userService.transferMoney(transactionDTO, (UserEntity) session.getAttribute("loggedInUser"))
                 )
         );
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody CredentialsDTO credentials, HttpSession session) {
-        return authenticationService.authenticate(credentials, session);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession session) {
-        return authenticationService.logout(session);
     }
 
     @GetMapping("/{id}")
