@@ -18,10 +18,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final TransactionServiceImpl transactionService;
+    private final TransactionService transactionService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, TransactionServiceImpl transactionService) {
+    public UserServiceImpl(UserRepository userRepository, TransactionService transactionService) {
         this.userRepository = userRepository;
         this.transactionService = transactionService;
     }
@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService{
             throw new InsufficientFundsException("Insufficient funds in sender's account");
         }
     }
-
 
     public UserEntity findById(int id) {
         return userRepository.findById(id)

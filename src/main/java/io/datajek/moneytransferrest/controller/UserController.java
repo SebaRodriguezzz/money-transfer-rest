@@ -4,6 +4,7 @@ import io.datajek.moneytransferrest.dto.CredentialsDTO;
 import io.datajek.moneytransferrest.dto.TransactionDTO;
 import io.datajek.moneytransferrest.dto.UserDTO;
 import io.datajek.moneytransferrest.model.UserEntity;
+import io.datajek.moneytransferrest.service.AuthenticationService;
 import io.datajek.moneytransferrest.service.AuthenticationServiceImpl;
 import io.datajek.moneytransferrest.service.mapper.TransactionMapper;
 import io.datajek.moneytransferrest.service.mapper.UserMapper;
@@ -24,10 +25,10 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final TransactionMapper transactionMapper;
-    private final AuthenticationServiceImpl authenticationService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public UserController(UserServiceImpl userService, UserMapper userMapper, TransactionMapper transactionMapper, AuthenticationServiceImpl authenticationService) {
+    public UserController(UserServiceImpl userService, UserMapper userMapper, TransactionMapper transactionMapper, AuthenticationService authenticationService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.transactionMapper = transactionMapper;
