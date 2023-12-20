@@ -34,10 +34,8 @@ public class UserController {
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<TransactionDTO> transferMoney(@RequestBody TransactionDTO transfer, HttpSession session) {
-        long receiverAccountNumber = transfer.getReceiverAccountNumber();
-        BigDecimal amount = transfer.getAmount();
-        TransactionEntity transaction = userService.transferMoney(receiverAccountNumber, amount, (UserEntity) session.getAttribute("loggedInUser"));
+    public ResponseEntity<TransactionDTO> transferMoney(@RequestBody TransactionDTO transactionDTO, HttpSession session) {
+        TransactionEntity transaction = userService.transferMoney(transactionDTO, (UserEntity) session.getAttribute("loggedInUser"));
         return ResponseEntity.ok(transactionMapper.toTransferDTO(transaction));
     }
 

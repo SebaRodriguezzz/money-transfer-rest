@@ -36,8 +36,9 @@ public class UserServiceImpl implements UserService{
         this.transactionService = transactionService;
     }
 
-
-    public TransactionEntity transferMoney(long receiverAccountNumber, BigDecimal amount, UserEntity sender) {
+    public TransactionEntity transferMoney(TransactionDTO transaction, UserEntity sender) {
+        long receiverAccountNumber = transaction.getReceiverAccountNumber();
+        BigDecimal amount = transaction.getAmount();
         UserEntity receiver = findByAccountNumber(receiverAccountNumber);
         if (sender.equals(receiver)) {
             throw new SameAccountTransactionException("Sender and receiver accounts are the same");
