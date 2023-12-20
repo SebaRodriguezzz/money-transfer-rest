@@ -4,17 +4,16 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserDTO {
-    private int id;
+    private long id;
     private String name;
     private String nationality;
     private Date birthDate;
     private BigDecimal balance;
 
-    // Constructor vacío
     public UserDTO() {
     }
 
-    public UserDTO(int id, String name, String nationality, Date birthDate, BigDecimal balance) {
+    public UserDTO(long id, String name, String nationality, Date birthDate, BigDecimal balance) {
         this.id = id;
         this.name = name;
         this.nationality = nationality;
@@ -22,11 +21,11 @@ public class UserDTO {
         this.balance = balance;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

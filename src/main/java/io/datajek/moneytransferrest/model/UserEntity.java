@@ -18,7 +18,6 @@ public class UserEntity {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
-    //TODO: accountentity, un usuario puede tener varias cuentas. lista de cuentas
     private BigDecimal balance;
     private long accountNumber;
 
@@ -46,7 +45,7 @@ public class UserEntity {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

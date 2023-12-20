@@ -1,11 +1,8 @@
 package io.datajek.moneytransferrest.controller;
 
-import io.datajek.moneytransferrest.dto.CredentialsDTO;
 import io.datajek.moneytransferrest.dto.TransactionDTO;
 import io.datajek.moneytransferrest.dto.UserDTO;
 import io.datajek.moneytransferrest.model.UserEntity;
-import io.datajek.moneytransferrest.service.AuthenticationService;
-import io.datajek.moneytransferrest.service.AuthenticationServiceImpl;
 import io.datajek.moneytransferrest.service.mapper.TransactionMapper;
 import io.datajek.moneytransferrest.service.mapper.UserMapper;
 import io.datajek.moneytransferrest.service.UserService;
@@ -43,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable int id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable long id) {
         return ResponseEntity.ok(userMapper.toUserDTO(userService.findById(id)));
     }
 
@@ -60,14 +57,14 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable int id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> update(@PathVariable long id, @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(
                 userMapper.toUserDTO(userService.update(id, userMapper.toUserEntity(userDTO)))
         );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable int id) {
+    public ResponseEntity<Void> deleteById(@PathVariable long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,19 +1,17 @@
 package io.datajek.moneytransferrest.dto;
 
-import io.datajek.moneytransferrest.model.UserEntity;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 
 public class TransactionDTO {
-    private int id;
+    private long id;
     private Instant date;
     private long  senderAccountNumber;
     private long receiverAccountNumber;
     private BigDecimal amount;
 
 
-    public TransactionDTO(int id, Instant date, long senderAccountNumber, long receiverAccountNumber, BigDecimal amount) {
+    public TransactionDTO(long id, Instant date, long senderAccountNumber, long receiverAccountNumber, BigDecimal amount) {
         this.id = id;
         this.date = date;
         this.senderAccountNumber = senderAccountNumber;
@@ -25,11 +23,11 @@ public class TransactionDTO {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

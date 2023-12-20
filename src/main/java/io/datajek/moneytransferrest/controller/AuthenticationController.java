@@ -3,7 +3,6 @@ package io.datajek.moneytransferrest.controller;
 import io.datajek.moneytransferrest.dto.CredentialsDTO;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.service.AuthenticationService;
-import io.datajek.moneytransferrest.service.AuthenticationServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

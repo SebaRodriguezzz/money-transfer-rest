@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    public UserEntity findById(int id) {
+    public UserEntity findById(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with id {" + id + "} not found"));
     }
@@ -66,14 +66,14 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(p);
     }
 
-    public UserEntity update(int id, UserEntity p) {
+    public UserEntity update(long id, UserEntity p) {
         p.setId(id);
         return userRepository.findById(id)
                 .map(user -> userRepository.save(p))
                 .orElseThrow(() -> new UserNotFoundException("User with id {" + id + "} not found"));
     }
 
-    public void delete(int id) {
+    public void delete(long id) {
         userRepository.findById(id)
                 .ifPresentOrElse(userRepository::delete, () -> {
                     throw new UserNotFoundException("User with id {" + id + "} not found");
