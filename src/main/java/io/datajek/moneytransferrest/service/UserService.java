@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface UserService {
     TransactionEntity transferMoney(TransactionDTO transaction, UserEntity sender);
-    ResponseEntity<String> authenticate(CredentialsDTO credentials, HttpSession session);
     UserEntity findById(int id);
     List<UserEntity> findAll();
     UserEntity save(UserEntity p);
