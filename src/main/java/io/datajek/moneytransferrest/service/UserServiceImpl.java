@@ -7,6 +7,7 @@ import io.datajek.moneytransferrest.exception.InsufficientFundsException;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService{
         this.transactionService = transactionService;
     }
 
+    @Transactional
     public TransactionEntity transferMoney(TransactionDTO transaction, UserEntity sender) {
         UserEntity receiver = findByAccountNumber(transaction.getReceiverAccountNumber());
         if (sender.equals(receiver)) {

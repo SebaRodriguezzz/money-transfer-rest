@@ -21,7 +21,7 @@ public class TransactionServiceImpl implements TransactionService {
         this.userRepo = userRepo;
     }
 
-    @Transactional(rollbackFor = TransactionFailedException.class)
+
     public TransactionEntity performTransaction(UserEntity receiver, UserEntity sender, BigDecimal amount) {
         try {
             receiver.addBalance(amount);
