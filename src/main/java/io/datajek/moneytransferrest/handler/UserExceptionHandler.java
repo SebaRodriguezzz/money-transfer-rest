@@ -2,7 +2,6 @@ package io.datajek.moneytransferrest.handler;
 
 import io.datajek.moneytransferrest.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,7 +25,7 @@ public class UserExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<UserErrorResponse> sameAccountTransferHandler(SameAccountTransferException ex, HttpServletRequest req){
+    public ResponseEntity<UserErrorResponse> sameAccountTransferHandler(SameAccountTransactionException ex, HttpServletRequest req){
         return buildErrorResponse(ex, req, HttpStatus.BAD_REQUEST);
     }
 

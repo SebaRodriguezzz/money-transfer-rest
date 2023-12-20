@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.service;
+package io.datajek.moneytransferrest.service.mapper;
 
 import io.datajek.moneytransferrest.dto.UserDTO;
 import io.datajek.moneytransferrest.model.UserEntity;

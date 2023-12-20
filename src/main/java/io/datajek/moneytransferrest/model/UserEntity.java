@@ -1,11 +1,11 @@
 package io.datajek.moneytransferrest.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
@@ -15,15 +15,22 @@ public class UserEntity {
     private int id;
     private String name;
     private String nationality;
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
+    //TODO: accountentity, un usuario puede tener varias cuentas. lista de cuentas
     private BigDecimal balance;
     private long accountNumber;
 
-    @Nullable
+    @OneToMany(mappedBy = "sender")
+    private List<TransactionEntity> sentTransactions;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<TransactionEntity> receivedTransactions;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "credentials_id")
-    private UserCredentials credentials;
+    @JoinColumn(name = "credentials_id", referencedColumnName = "id")
+    private UserCredentialsEntity credentials;
 
 
     public UserEntity(){}
@@ -75,11 +82,11 @@ public class UserEntity {
         this.balance = balance;
     }
 
-    public UserCredentials getCredentials() {
+    public UserCredentialsEntity getCredentials() {
         return credentials;
     }
 
-    public void setCredentials(UserCredentials credentials) {
+    public void setCredentials(UserCredentialsEntity credentials) {
         this.credentials = credentials;
     }
 
@@ -93,6 +100,26 @@ public class UserEntity {
 
     public long getAccountNumber() {
         return accountNumber;
+    }
+
+    public void setAccountNumber(long accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public List<TransactionEntity> getSentTransactions() {
+        return sentTransactions;
+    }
+
+    public void setSentTransactions(List<TransactionEntity> sentTransactions) {
+        this.sentTransactions = sentTransactions;
+    }
+
+    public List<TransactionEntity> getReceivedTransactions() {
+        return receivedTransactions;
+    }
+
+    public void setReceivedTransactions(List<TransactionEntity> receivedTransactions) {
+        this.receivedTransactions = receivedTransactions;
     }
 
     public long setAccountNumber() {

@@ -1,10 +1,12 @@
 package io.datajek.moneytransferrest.controller;
 
 import io.datajek.moneytransferrest.dto.CredentialsDTO;
-import io.datajek.moneytransferrest.dto.TransferDTO;
+import io.datajek.moneytransferrest.dto.TransactionDTO;
 import io.datajek.moneytransferrest.dto.UserDTO;
+import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
-import io.datajek.moneytransferrest.service.UserMapper;
+import io.datajek.moneytransferrest.service.mapper.TransactionMapper;
+import io.datajek.moneytransferrest.service.mapper.UserMapper;
 import io.datajek.moneytransferrest.service.UserService;
 import io.datajek.moneytransferrest.service.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
@@ -22,24 +24,26 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final TransactionMapper transactionMapper;
 
     @Autowired
-    public UserController(UserServiceImpl userService, UserMapper userMapper) {
+    public UserController(UserServiceImpl userService, UserMapper userMapper, TransactionMapper transactionMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
+        this.transactionMapper = transactionMapper;
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<TransferDTO> transferMoney(@RequestBody TransferDTO transfer, HttpSession session) {
+    public ResponseEntity<TransactionDTO> transferMoney(@RequestBody TransactionDTO transfer, HttpSession session) {
         long receiverAccountNumber = transfer.getReceiverAccountNumber();
         BigDecimal amount = transfer.getAmount();
-        TransferDTO transferDTO = userService.transferMoney(receiverAccountNumber, amount, (String) session.getAttribute("loggedInUser"));
-        return ResponseEntity.ok(transferDTO);
+        TransactionEntity transaction = userService.transferMoney(receiverAccountNumber, amount, (UserEntity) session.getAttribute("loggedInUser"));
+        return ResponseEntity.ok(transactionMapper.toTransferDTO(transaction));
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody CredentialsDTO credentials, HttpSession session) {
-        ResponseEntity<String> isAuthenticated = userService.authenticate(credentials.getUsername(), credentials.getPassword(), session);
+        ResponseEntity<String> isAuthenticated = userService.authenticate(credentials, session);
         return ResponseEntity.ok(isAuthenticated.getBody());
     }
 

@@ -2,7 +2,9 @@ package io.datajek.moneytransferrest.service.mapper;
 
 import io.datajek.moneytransferrest.dto.TransactionDTO;
 import io.datajek.moneytransferrest.model.TransactionEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TransactionMapper {
 
     public TransactionDTO toTransferDTO(TransactionEntity transactionEntity) {
