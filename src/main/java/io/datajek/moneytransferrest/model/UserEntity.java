@@ -41,6 +41,15 @@ public class UserEntity {
         this.accountNumber = setAccountNumber();
     }
 
+    public UserEntity(String name, String nationality, Date birthDate, BigDecimal balance, long accountNumber, UserCredentialsEntity credentials) {
+        this.name = name;
+        this.nationality = nationality;
+        this.birthDate = birthDate;
+        this.balance = balance;
+        this.accountNumber = accountNumber;
+        this.credentials = credentials;
+    }
+
     public long getId() {
         return id;
     }

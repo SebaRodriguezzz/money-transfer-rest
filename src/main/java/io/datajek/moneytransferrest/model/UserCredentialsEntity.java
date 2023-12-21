@@ -14,6 +14,14 @@ public class UserCredentialsEntity {
     @OneToOne(mappedBy = "credentials", optional = false)
     private UserEntity user;
 
+    public UserCredentialsEntity() {
+    }
+
+    public UserCredentialsEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public long getId() {
         return id;
     }
