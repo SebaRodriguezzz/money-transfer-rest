@@ -17,6 +17,9 @@ Implements basic exception handling to maintain stability during user transactio
 * **POST /register**: Register new users.
 * **POST /login**: Authenticate users.
 * **POST /users/transfer**: Initiate money transfers between users.
+* **GET /transactions/{accountNumber}**: Retrieve transaction history for a user.
+* **GET /transactions/{accountNumber}/sent**: Retrieve sent transactions for a user.
+* **GET /transactions/{accountNumber}/received**: Retrieve received transactions for a user.
 * **POST /logout**: Log out from your account.
 
 ### Technologies Used
