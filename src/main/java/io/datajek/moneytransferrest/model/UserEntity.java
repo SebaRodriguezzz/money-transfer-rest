@@ -19,7 +19,6 @@ public class UserEntity {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
     private BigDecimal balance;
-    //TODO: Allow a user to have multiple accounts, with an accountEntity that will contain: currency, balance, account number, etc.
     private long accountNumber;
 
     @OneToMany(mappedBy = "sender")
