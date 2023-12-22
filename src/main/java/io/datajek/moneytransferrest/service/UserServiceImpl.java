@@ -1,9 +1,9 @@
 package io.datajek.moneytransferrest.service;
 
 import io.datajek.moneytransferrest.dto.TransactionDTO;
-import io.datajek.moneytransferrest.exception.SameAccountTransactionException;
-import io.datajek.moneytransferrest.exception.UserNotFoundException;
-import io.datajek.moneytransferrest.exception.InsufficientFundsException;
+import io.datajek.moneytransferrest.exception.transaction.SameAccountTransactionException;
+import io.datajek.moneytransferrest.exception.user.UserNotFoundException;
+import io.datajek.moneytransferrest.exception.user.InsufficientFundsException;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.UserRepository;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
         return transactionService.performTransaction(receiver, sender, transaction.getAmount());
     }
 
-    private UserEntity findByAccountNumber(long accountNumber) {
+    private UserEntity findByAccountNumber(Long accountNumber) {
         return userRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new UserNotFoundException("User with account number {" + accountNumber + "} not found"));
     }
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    public UserEntity findById(long id) {
+    public UserEntity findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with id {" + id + "} not found"));
     }
@@ -66,17 +66,14 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(p);
     }
 
-    public UserEntity update(long id, UserEntity p) {
+    public UserEntity update(Long id, UserEntity p) {
         p.setId(id);
         return userRepository.findById(id)
-                .map(user -> userRepository.save(p))
+                .map(userRepository::save)
                 .orElseThrow(() -> new UserNotFoundException("User with id {" + id + "} not found"));
     }
 
-    public void delete(long id) {
-        userRepository.findById(id)
-                .ifPresentOrElse(userRepository::delete, () -> {
-                    throw new UserNotFoundException("User with id {" + id + "} not found");
-                });
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 }

@@ -8,16 +8,18 @@ public class UserDTO {
     private String name;
     private String nationality;
     private Date birthDate;
+    private Long accountNumber;
     private BigDecimal balance;
 
     public UserDTO() {
     }
 
-    public UserDTO(long id, String name, String nationality, Date birthDate, BigDecimal balance) {
+    public UserDTO(long id, String name, String nationality, Date birthDate, Long accountNumber, BigDecimal balance) {
         this.id = id;
         this.name = name;
         this.nationality = nationality;
         this.birthDate = birthDate;
+        this.accountNumber = accountNumber;
         this.balance = balance;
     }
 
@@ -53,6 +55,14 @@ public class UserDTO {
         this.birthDate = birthDate;
     }
 
+    public Long getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(Long accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
     public BigDecimal getBalance() {
         return balance;
     }
@@ -60,4 +70,5 @@ public class UserDTO {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
 }

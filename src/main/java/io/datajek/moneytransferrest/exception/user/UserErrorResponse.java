@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.exception;
+package io.datajek.moneytransferrest.exception.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.exception;
+package io.datajek.moneytransferrest.exception.transaction;
 
 public class TransactionFailedException extends RuntimeException {
     public TransactionFailedException(String message) {

@@ -1,7 +1,7 @@
 package io.datajek.moneytransferrest.service;
 
 import io.datajek.moneytransferrest.dto.CredentialsDTO;
-import io.datajek.moneytransferrest.exception.UserAlreadyRegisteredException;
+import io.datajek.moneytransferrest.exception.user.UserAlreadyRegisteredException;
 import io.datajek.moneytransferrest.model.UserCredentialsEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.UserCredentialsRepository;

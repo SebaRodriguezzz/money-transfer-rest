@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface UserService {
     TransactionEntity transferMoney(TransactionDTO transaction, UserEntity sender);
-    UserEntity findById(long id);
+    UserEntity findById(Long id);
     List<UserEntity> findAll();
     UserEntity save(UserEntity p);
-    UserEntity update(long id, UserEntity p);
-    void delete(long id);
+    UserEntity update(Long id, UserEntity p);
+    void delete(Long id);
 }

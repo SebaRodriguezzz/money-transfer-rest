@@ -16,6 +16,7 @@ public class UserMapper {
         userDTO.setName(userEntity.getName());
         userDTO.setNationality(userEntity.getNationality());
         userDTO.setBirthDate(userEntity.getBirthDate());
+        userDTO.setAccountNumber(userEntity.getAccountNumber());
         userDTO.setBalance(userEntity.getBalance());
         return userDTO;
     }
@@ -26,11 +27,14 @@ public class UserMapper {
         userEntity.setName(userDTO.getName());
         userEntity.setNationality(userDTO.getNationality());
         userEntity.setBirthDate(userDTO.getBirthDate());
+        userEntity.setAccountNumber(userDTO.getAccountNumber());
         userEntity.setBalance(userDTO.getBalance());
         return userEntity;
     }
 
     public List<UserDTO> toUserDTOList(List<UserEntity> userEntities) {
-        return userEntities.stream().map(this::toUserDTO).collect(Collectors.toList());
+        return userEntities.stream()
+                .map(this::toUserDTO)
+                .collect(Collectors.toList());
     }
 }

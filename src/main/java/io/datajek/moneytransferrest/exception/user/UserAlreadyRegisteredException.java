@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.exception;
+package io.datajek.moneytransferrest.exception.user;
 
 public class UserAlreadyRegisteredException extends RuntimeException {
     public UserAlreadyRegisteredException(String message) {

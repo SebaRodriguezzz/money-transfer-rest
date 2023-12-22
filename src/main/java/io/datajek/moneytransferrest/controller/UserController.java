@@ -33,14 +33,14 @@ public class UserController {
     @PostMapping("/transfer")
     public ResponseEntity<TransactionDTO> transferMoney(@RequestBody TransactionDTO transactionDTO, HttpSession session) {
         return ResponseEntity.ok(
-                transactionMapper.toTransferDTO(
+                transactionMapper.toTransactionDTO(
                         userService.transferMoney(transactionDTO, (UserEntity) session.getAttribute("loggedInUser"))
                 )
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable long id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(userMapper.toUserDTO(userService.findById(id)));
     }
 
@@ -57,14 +57,14 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable long id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(
                 userMapper.toUserDTO(userService.update(id, userMapper.toUserEntity(userDTO)))
         );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
