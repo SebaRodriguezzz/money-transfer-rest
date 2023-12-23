@@ -1,5 +1,5 @@
-# Money Transfer Rest Application
-This basic RESTful application, created using Spring and Spring Boot, is a mock implementation for user authentication and money transfers between users. It employs an H2 database for minimalistic data storage and includes exception handling.
+# Money Transfer Rest API
+This RESTful API, created using Spring and Spring Boot, is a mock implementation for user authentication and money transfers between users. It employs an H2 database for minimalistic data storage and includes exception handling.
 
 ### Key Features
 #### Registration
