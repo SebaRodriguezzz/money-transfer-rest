@@ -14,16 +14,19 @@ Utilizes an H2 in-memory database for storing user-related information.
 Implements basic exception handling to maintain stability during user transactions.
 
 ### Endpoints
-* **POST /register**: Register new users.
-* **POST /login**: Authenticate users.
+* **POST /register**: Register new user account.
+* **POST /login**: Authenticate user credentials.
 * **POST /users/transfer**: Initiate money transfers between users.
-* **GET /transactions/{accountNumber}**: Retrieve transaction history for a user.
-* **GET /transactions/{accountNumber}/sent**: Retrieve sent transactions for a user.
-* **GET /transactions/{accountNumber}/received**: Retrieve received transactions for a user.
-* **POST /logout**: Log out from your account.
+* **GET /users/transactions**: Retrieve transaction history for a user.
+* **GET /users/transactions?type=sent**: Retrieve sent transactions for a user.
+* **GET /users/transactions?type=received**: Retrieve received transactions for a user.
+* **POST /logout**: Log out from user account.
 
 ### Technologies Used
 * **Spring**: Lightweight framework for building Java applications.
 * **Spring Boot**: Simplifies the setup and development of Spring applications.
+* **Spring Security**: Authentication and access-control framework for Spring applications.
+* **Spring Data JPA**: Simplifies the implementation of JPA-based repositories.
+* **Hibernate**: ORM framework for mapping Java objects to relational database tables.
 * **H2 Database**: Lightweight, in-memory database for data storage.
 * **Maven**: Build automation tool for Java projects.
