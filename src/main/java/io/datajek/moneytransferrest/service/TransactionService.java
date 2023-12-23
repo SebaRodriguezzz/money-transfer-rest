@@ -8,9 +8,8 @@ import java.util.List;
 
 public interface TransactionService {
     TransactionEntity performTransaction(UserEntity receiver, UserEntity sender, BigDecimal amount);
+    TransactionEntity findById(Long id);
     List<TransactionEntity> findAll();
     void delete(Long id);
-    List<TransactionEntity> findByAccountNumber(Long accountNumber);
-    List<TransactionEntity> findBySenderAccountNumber(Long accountNumber);
-    List<TransactionEntity> findByReceiverAccountNumber(Long accountNumber);
+    List<TransactionEntity> findByType(UserEntity user, String type);
 }

@@ -1,6 +1,7 @@
 package io.datajek.moneytransferrest.controller;
 
 import io.datajek.moneytransferrest.dto.TransactionDTO;
+import io.datajek.moneytransferrest.dto.UserDTO;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.service.TransactionService;
 import io.datajek.moneytransferrest.service.mapper.TransactionMapper;
@@ -21,31 +22,16 @@ public class TransactionController {
         this.transactionMapper = transactionMapper;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TransactionDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(transactionMapper.toTransactionDTO(transactionService.findById(id)));
+    }
+
     @GetMapping
     public ResponseEntity<List<TransactionDTO>> findAll() {
         List<TransactionEntity> transactions = transactionService.findAll();
         return ResponseEntity.ok(transactionMapper.toTransactionDTOList(transactions));
     }
-
-
-    @GetMapping("/{accountNumber}")
-    public ResponseEntity<List<TransactionDTO>> findByAccountNumber(@PathVariable Long accountNumber) {
-        List<TransactionEntity> transactions = transactionService.findByAccountNumber(accountNumber);
-        return ResponseEntity.ok(transactionMapper.toTransactionDTOList(transactions));
-    }
-
-    @GetMapping("/{accountNumber}/sent")
-    public ResponseEntity<List<TransactionDTO>> findByAccountNumberSent(@PathVariable Long accountNumber) {
-        List<TransactionEntity> transactions = transactionService.findBySenderAccountNumber(accountNumber);
-        return ResponseEntity.ok(transactionMapper.toTransactionDTOList(transactions));
-    }
-
-    @GetMapping("/{accountNumber}/received")
-    public ResponseEntity<List<TransactionDTO>> findByAccountNumberReceived(@PathVariable Long accountNumber) {
-        List<TransactionEntity> transactions = transactionService.findByReceiverAccountNumber(accountNumber);
-        return ResponseEntity.ok(transactionMapper.toTransactionDTOList(transactions));
-    }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

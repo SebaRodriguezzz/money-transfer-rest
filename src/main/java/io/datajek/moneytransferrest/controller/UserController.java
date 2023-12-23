@@ -2,7 +2,9 @@ package io.datajek.moneytransferrest.controller;
 
 import io.datajek.moneytransferrest.dto.TransactionDTO;
 import io.datajek.moneytransferrest.dto.UserDTO;
+import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
+import io.datajek.moneytransferrest.service.TransactionService;
 import io.datajek.moneytransferrest.service.mapper.TransactionMapper;
 import io.datajek.moneytransferrest.service.mapper.UserMapper;
 import io.datajek.moneytransferrest.service.UserService;
@@ -20,12 +22,14 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final TransactionService transactionService;
     private final UserMapper userMapper;
     private final TransactionMapper transactionMapper;
 
     @Autowired
-    public UserController(UserServiceImpl userService, UserMapper userMapper, TransactionMapper transactionMapper) {
+    public UserController(UserServiceImpl userService, TransactionService transactionService, UserMapper userMapper, TransactionMapper transactionMapper) {
         this.userService = userService;
+        this.transactionService = transactionService;
         this.userMapper = userMapper;
         this.transactionMapper = transactionMapper;
     }
@@ -37,6 +41,12 @@ public class UserController {
                         userService.transferMoney(transactionDTO, (UserEntity) session.getAttribute("loggedInUser"))
                 )
         );
+    }
+
+    @GetMapping("/transactions") // /users/transactions?type=sent or /users/transactions?type=received
+    public ResponseEntity<List<TransactionDTO>> getTransactions(HttpSession session, @RequestParam(required = false) String type) {
+        List<TransactionEntity> transactions = transactionService.findByType((UserEntity) session.getAttribute("loggedInUser"), type);
+        return ResponseEntity.ok(transactionMapper.toTransactionDTOList(transactions));
     }
 
     @GetMapping("/{id}")
