@@ -1,7 +1,7 @@
 package io.datajek.moneytransferrest.controller;
 
+import io.datajek.moneytransferrest.controller.api.TransactionControllerAPI;
 import io.datajek.moneytransferrest.dto.TransactionDTO;
-import io.datajek.moneytransferrest.dto.UserDTO;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.service.TransactionService;
 import io.datajek.moneytransferrest.service.mapper.TransactionMapper;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/transactions")
-public class TransactionController {
+public class TransactionController implements TransactionControllerAPI {
 
     private final TransactionService transactionService;
     private final TransactionMapper transactionMapper;
