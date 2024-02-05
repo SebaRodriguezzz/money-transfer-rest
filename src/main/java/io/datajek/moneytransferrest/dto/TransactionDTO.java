@@ -1,65 +1,30 @@
 package io.datajek.moneytransferrest.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 
+@Getter
+@Setter
+@Schema(description = "DTO to represent transaction information")
 public class TransactionDTO {
+
+    @Schema(description = "Transaction ID", example = "1")
     private long id;
+
+    @Schema(description = "Transaction date", example = "2024-02-04T12:30:45Z")
     private Instant date;
-    private long  senderAccountNumber;
+
+    @Schema(description = "Sender's account number", example = "123456789")
+    private long senderAccountNumber;
+
+    @Schema(description = "Receiver's account number", example = "987654321")
     private long receiverAccountNumber;
+
+    @Schema(description = "Transaction amount", example = "500.75")
     private BigDecimal amount;
 
-
-    public TransactionDTO(long id, Instant date, long senderAccountNumber, long receiverAccountNumber, BigDecimal amount) {
-        this.id = id;
-        this.date = date;
-        this.senderAccountNumber = senderAccountNumber;
-        this.receiverAccountNumber = receiverAccountNumber;
-        this.amount = amount;
-    }
-
-    public TransactionDTO() {
-
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Instant getDate() {
-        return date;
-    }
-
-    public void setDate(Instant date) {
-        this.date = date;
-    }
-
-    public long getSenderAccountNumber() {
-        return senderAccountNumber;
-    }
-
-    public void setSenderAccountNumber(long senderAccountNumber) {
-        this.senderAccountNumber = senderAccountNumber;
-    }
-
-    public long getReceiverAccountNumber() {
-        return receiverAccountNumber;
-    }
-
-    public void setReceiverAccountNumber(long receiverAccountNumber) {
-        this.receiverAccountNumber = receiverAccountNumber;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
 }
