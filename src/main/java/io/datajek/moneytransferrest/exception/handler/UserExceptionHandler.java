@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.handler;
+package io.datajek.moneytransferrest.exception.handler;
 
 import io.datajek.moneytransferrest.exception.authentication.InvalidLoginException;
 import io.datajek.moneytransferrest.exception.transaction.SameAccountTransactionException;
@@ -17,8 +17,6 @@ import java.time.ZonedDateTime;
 
 @ControllerAdvice
 public class UserExceptionHandler {
-
-
 
     @ExceptionHandler
     public ResponseEntity<UserErrorResponse> insufficientFundsHandler(InsufficientFundsException ex, HttpServletRequest req){
@@ -46,16 +44,9 @@ public class UserExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<UserErrorResponse> userNotFoundHandler(UserAlreadyRegisteredException ex, HttpServletRequest req){
-        return buildErrorResponse(ex, req, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
     public ResponseEntity<UserErrorResponse> genericHandler (Exception ex, HttpServletRequest req){
         return buildErrorResponse(ex, req, HttpStatus.BAD_REQUEST);
     }
-
-
 
     private ResponseEntity<UserErrorResponse> buildErrorResponse(Exception ex, HttpServletRequest req, HttpStatus status) {
         UserErrorResponse error = new UserErrorResponse(
