@@ -1,12 +1,11 @@
-package io.datajek.moneytransferrest.controller;
+package io.datajek.moneytransferrest.web.in;
 
-import io.datajek.moneytransferrest.controller.api.AuthenticationControllerAPI;
-import io.datajek.moneytransferrest.dto.CredentialsDTO;
+import io.datajek.moneytransferrest.web.api.AuthenticationControllerAPI;
+import io.datajek.moneytransferrest.web.dto.CredentialsDTO;
 import io.datajek.moneytransferrest.model.UserEntity;
-import io.datajek.moneytransferrest.service.AuthenticationService;
+import io.datajek.moneytransferrest.business.AuthenticationService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

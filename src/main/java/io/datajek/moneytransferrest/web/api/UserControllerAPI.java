@@ -1,7 +1,7 @@
-package io.datajek.moneytransferrest.controller.api;
+package io.datajek.moneytransferrest.web.api;
 
-import io.datajek.moneytransferrest.dto.TransactionDTO;
-import io.datajek.moneytransferrest.dto.UserDTO;
+import io.datajek.moneytransferrest.web.dto.TransactionDTO;
+import io.datajek.moneytransferrest.web.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

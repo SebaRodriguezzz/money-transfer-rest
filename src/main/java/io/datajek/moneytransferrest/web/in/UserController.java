@@ -1,14 +1,14 @@
-package io.datajek.moneytransferrest.controller;
+package io.datajek.moneytransferrest.web.in;
 
-import io.datajek.moneytransferrest.controller.api.UserControllerAPI;
-import io.datajek.moneytransferrest.dto.TransactionDTO;
-import io.datajek.moneytransferrest.dto.UserDTO;
+import io.datajek.moneytransferrest.web.api.UserControllerAPI;
+import io.datajek.moneytransferrest.web.dto.TransactionDTO;
+import io.datajek.moneytransferrest.web.dto.UserDTO;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
-import io.datajek.moneytransferrest.service.TransactionService;
-import io.datajek.moneytransferrest.service.mapper.TransactionMapper;
-import io.datajek.moneytransferrest.service.mapper.UserMapper;
-import io.datajek.moneytransferrest.service.UserService;
+import io.datajek.moneytransferrest.business.TransactionService;
+import io.datajek.moneytransferrest.web.mapper.TransactionMapper;
+import io.datajek.moneytransferrest.web.mapper.UserMapper;
+import io.datajek.moneytransferrest.business.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +31,7 @@ public class UserController implements UserControllerAPI {
     public ResponseEntity<TransactionDTO> transferMoney(@RequestBody TransactionDTO transactionDTO, HttpSession session) {
         return ResponseEntity.ok(
                 transactionMapper.toTransactionDTO(
+                        //TODO: sacar casteo
                         userService.transferMoney(transactionDTO, (UserEntity) session.getAttribute("loggedInUser"))
                 )
         );

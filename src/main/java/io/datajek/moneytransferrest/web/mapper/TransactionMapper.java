@@ -1,12 +1,10 @@
-package io.datajek.moneytransferrest.service.mapper;
+package io.datajek.moneytransferrest.web.mapper;
 
-import io.datajek.moneytransferrest.dto.TransactionDTO;
+import io.datajek.moneytransferrest.web.dto.TransactionDTO;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {

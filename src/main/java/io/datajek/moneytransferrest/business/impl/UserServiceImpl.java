@@ -1,14 +1,14 @@
-package io.datajek.moneytransferrest.service.impl;
+package io.datajek.moneytransferrest.business.impl;
 
-import io.datajek.moneytransferrest.dto.TransactionDTO;
+import io.datajek.moneytransferrest.web.dto.TransactionDTO;
 import io.datajek.moneytransferrest.exception.transaction.SameAccountTransactionException;
 import io.datajek.moneytransferrest.exception.user.UserNotFoundException;
 import io.datajek.moneytransferrest.exception.user.InsufficientFundsException;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.UserRepository;
-import io.datajek.moneytransferrest.service.TransactionService;
-import io.datajek.moneytransferrest.service.UserService;
+import io.datajek.moneytransferrest.business.TransactionService;
+import io.datajek.moneytransferrest.business.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

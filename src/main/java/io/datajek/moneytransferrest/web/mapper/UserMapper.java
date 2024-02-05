@@ -1,6 +1,6 @@
-package io.datajek.moneytransferrest.service.mapper;
+package io.datajek.moneytransferrest.web.mapper;
 
-import io.datajek.moneytransferrest.dto.UserDTO;
+import io.datajek.moneytransferrest.web.dto.UserDTO;
 import io.datajek.moneytransferrest.model.UserEntity;
 import org.mapstruct.Mapper;
 import java.util.List;

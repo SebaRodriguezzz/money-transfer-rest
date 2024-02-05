@@ -1,6 +1,6 @@
-package io.datajek.moneytransferrest.service;
+package io.datajek.moneytransferrest.business;
 
-import io.datajek.moneytransferrest.dto.CredentialsDTO;
+import io.datajek.moneytransferrest.web.dto.CredentialsDTO;
 import io.datajek.moneytransferrest.model.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;

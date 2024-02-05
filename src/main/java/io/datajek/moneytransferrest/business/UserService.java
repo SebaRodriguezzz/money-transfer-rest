@@ -1,7 +1,7 @@
-package io.datajek.moneytransferrest.service;
+package io.datajek.moneytransferrest.business;
 
 
-import io.datajek.moneytransferrest.dto.TransactionDTO;
+import io.datajek.moneytransferrest.web.dto.TransactionDTO;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
 import java.util.List;

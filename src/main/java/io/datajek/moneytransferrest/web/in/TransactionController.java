@@ -1,12 +1,11 @@
-package io.datajek.moneytransferrest.controller;
+package io.datajek.moneytransferrest.web.in;
 
-import io.datajek.moneytransferrest.controller.api.TransactionControllerAPI;
-import io.datajek.moneytransferrest.dto.TransactionDTO;
+import io.datajek.moneytransferrest.web.api.TransactionControllerAPI;
+import io.datajek.moneytransferrest.web.dto.TransactionDTO;
 import io.datajek.moneytransferrest.model.TransactionEntity;
-import io.datajek.moneytransferrest.service.TransactionService;
-import io.datajek.moneytransferrest.service.mapper.TransactionMapper;
+import io.datajek.moneytransferrest.business.TransactionService;
+import io.datajek.moneytransferrest.web.mapper.TransactionMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
