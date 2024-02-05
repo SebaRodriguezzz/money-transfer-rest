@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest;
+package io.datajek.moneytransferrest.config;
 
 
 import io.datajek.moneytransferrest.model.UserCredentialsEntity;
@@ -26,10 +26,10 @@ JSON for login:
 
 
 @Component
-public class DataInitializer {
+public class DataInitializerConfig {
     private final AuthenticationService authenticationService;
 
-    public DataInitializer(AuthenticationService authenticationService) {
+    public DataInitializerConfig(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
