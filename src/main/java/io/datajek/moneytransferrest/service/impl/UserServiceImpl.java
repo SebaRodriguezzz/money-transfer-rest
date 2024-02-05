@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.service;
+package io.datajek.moneytransferrest.service.impl;
 
 import io.datajek.moneytransferrest.dto.TransactionDTO;
 import io.datajek.moneytransferrest.exception.transaction.SameAccountTransactionException;
@@ -7,6 +7,8 @@ import io.datajek.moneytransferrest.exception.user.InsufficientFundsException;
 import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.UserRepository;
+import io.datajek.moneytransferrest.service.TransactionService;
+import io.datajek.moneytransferrest.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final TransactionService transactionService;
@@ -35,22 +37,6 @@ public class UserServiceImpl implements UserService{
         }
         failIfInsufficientFunds(sender, transaction.getAmount());
         return transactionService.performTransaction(receiver, sender, transaction.getAmount());
-    }
-
-    private UserEntity findByAccountNumber(Long accountNumber) {
-        return userRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new UserNotFoundException("User with account number {" + accountNumber + "} not found"));
-    }
-
-    private UserEntity findByUsername(String username) {
-        return userRepository.findByCredentialsUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User with username {" + username + "} not found"));
-    }
-
-    private void failIfInsufficientFunds(UserEntity user, BigDecimal amount) {
-        if (user.getBalance().compareTo(amount) < 0) {
-            throw new InsufficientFundsException("Insufficient funds in sender's account");
-        }
     }
 
     public UserEntity findById(Long id) {
@@ -76,4 +62,21 @@ public class UserServiceImpl implements UserService{
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
+    private void failIfInsufficientFunds(UserEntity user, BigDecimal amount) {
+        if (user.getBalance().compareTo(amount) < 0) {
+            throw new InsufficientFundsException("Insufficient funds in sender's account");
+        }
+    }
+
+    private UserEntity findByAccountNumber(Long accountNumber) {
+        return userRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(() -> new UserNotFoundException("User with account number {" + accountNumber + "} not found"));
+    }
+
+    private UserEntity findByUsername(String username) {
+        return userRepository.findByCredentialsUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User with username {" + username + "} not found"));
+    }
+
 }

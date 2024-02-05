@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.service;
+package io.datajek.moneytransferrest.service.impl;
 
 import io.datajek.moneytransferrest.dto.CredentialsDTO;
 import io.datajek.moneytransferrest.exception.user.UserAlreadyRegisteredException;
@@ -6,6 +6,7 @@ import io.datajek.moneytransferrest.model.UserCredentialsEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.UserCredentialsRepository;
 import io.datajek.moneytransferrest.repository.UserRepository;
+import io.datajek.moneytransferrest.service.AuthenticationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

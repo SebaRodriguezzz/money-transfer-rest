@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.service;
+package io.datajek.moneytransferrest.service.impl;
 
 import io.datajek.moneytransferrest.exception.transaction.TransactionFailedException;
 import io.datajek.moneytransferrest.exception.transaction.TransactionNotFoundException;
@@ -6,6 +6,7 @@ import io.datajek.moneytransferrest.model.TransactionEntity;
 import io.datajek.moneytransferrest.model.UserEntity;
 import io.datajek.moneytransferrest.repository.TransactionRepository;
 import io.datajek.moneytransferrest.repository.UserRepository;
+import io.datajek.moneytransferrest.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
