@@ -1,14 +1,14 @@
 package io.datajek.moneytransferrest.business.impl;
 
-import io.datajek.moneytransferrest.web.dto.CredentialsDTO;
-import io.datajek.moneytransferrest.exception.user.UserAlreadyRegisteredException;
-import io.datajek.moneytransferrest.model.UserCredentialsEntity;
-import io.datajek.moneytransferrest.model.UserEntity;
-import io.datajek.moneytransferrest.repository.UserCredentialsRepository;
-import io.datajek.moneytransferrest.repository.UserRepository;
 import io.datajek.moneytransferrest.business.AuthenticationService;
+import io.datajek.moneytransferrest.exception.user.UserAlreadyRegisteredException;
+import io.datajek.moneytransferrest.persistence.UserCredentialsPersistence;
+import io.datajek.moneytransferrest.persistence.UserPersistence;
+import io.datajek.moneytransferrest.persistence.entity.UserCredentialsEntity;
+import io.datajek.moneytransferrest.persistence.entity.UserEntity;
+import io.datajek.moneytransferrest.web.dto.CredentialsDTO;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,21 +17,16 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private final UserRepository userRepository;
-    private final UserCredentialsRepository credentialsRepository;
+    private final UserPersistence userPersistence;
+    private final UserCredentialsPersistence credentialsPersistence;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    public AuthenticationServiceImpl(UserRepository userRepository, UserCredentialsRepository credentialsRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.credentialsRepository = credentialsRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public ResponseEntity<String> authenticate(CredentialsDTO credentials, HttpSession session) {
-        Optional<UserCredentialsEntity> userCredentials = credentialsRepository.findByUsername(credentials.getUsername());
+        Optional<UserCredentialsEntity> userCredentials = credentialsPersistence.findByUsername(credentials.getUsername());
 
         if (userCredentials.isPresent() && passwordEncoder.matches(credentials.getPassword(), userCredentials.get().getPassword())) {
             UserEntity user = userCredentials.get().getUser();
@@ -48,11 +43,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     public ResponseEntity<String> registerUser(UserEntity user) {
-        if (credentialsRepository.findByUsername(user.getCredentials().getUsername()).isPresent()) {
+        if (credentialsPersistence.findByUsername(user.getCredentials().getUsername()).isPresent()) {
             throw new UserAlreadyRegisteredException("User with username {" + user.getCredentials().getUsername() + "} already registered");
         }
         user.getCredentials().setPassword(passwordEncoder.encode(user.getCredentials().getPassword()));
-        userRepository.save(user);
+        userPersistence.save(user);
         return ResponseEntity.ok("User registered successfully");
     }
 

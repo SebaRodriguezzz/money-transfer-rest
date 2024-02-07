@@ -1,7 +1,7 @@
 package io.datajek.moneytransferrest.business;
 
-import io.datajek.moneytransferrest.model.TransactionEntity;
-import io.datajek.moneytransferrest.model.UserEntity;
+import io.datajek.moneytransferrest.persistence.entity.TransactionEntity;
+import io.datajek.moneytransferrest.persistence.entity.UserEntity;
 
 import java.math.BigDecimal;
 import java.util.List;
