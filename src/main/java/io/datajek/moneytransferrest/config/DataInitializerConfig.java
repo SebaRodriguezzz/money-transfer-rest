@@ -1,8 +1,8 @@
 package io.datajek.moneytransferrest.config;
 
 
-import io.datajek.moneytransferrest.model.UserCredentialsEntity;
-import io.datajek.moneytransferrest.model.UserEntity;
+import io.datajek.moneytransferrest.persistence.entity.UserCredentialsEntity;
+import io.datajek.moneytransferrest.persistence.entity.UserEntity;
 import io.datajek.moneytransferrest.business.AuthenticationService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;

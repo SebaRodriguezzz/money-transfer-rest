@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.model;
+package io.datajek.moneytransferrest.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 public class UserCredentialsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;

@@ -1,6 +1,6 @@
-package io.datajek.moneytransferrest.repository;
+package io.datajek.moneytransferrest.persistence.repository;
 
-import io.datajek.moneytransferrest.model.UserCredentialsEntity;
+import io.datajek.moneytransferrest.persistence.entity.UserCredentialsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

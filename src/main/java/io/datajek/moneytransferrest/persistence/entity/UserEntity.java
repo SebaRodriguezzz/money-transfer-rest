@@ -1,22 +1,22 @@
-package io.datajek.moneytransferrest.model;
+package io.datajek.moneytransferrest.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.datajek.moneytransferrest.model.NationalityEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
-//TODO: cambiar los long
+//TODO: cambiar los Long
 @Entity
 @Getter
 @Setter
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String name;
 
@@ -30,15 +30,9 @@ public class UserEntity {
     @Column(nullable = false)
     private BigDecimal balance;
     @Column(nullable = false, updatable = false)
-    private long accountNumber;
+    private AccountEntity account;
 
-    @Column
-    @OneToMany(mappedBy = "sender")
-    private List<TransactionEntity> sentTransactions;
 
-    @Column
-    @OneToMany(mappedBy = "receiver")
-    private List<TransactionEntity> receivedTransactions;
 
     @Column(nullable = false)
     @OneToOne(cascade = CascadeType.ALL)
@@ -51,5 +45,9 @@ public class UserEntity {
 
     public void subtractBalance(BigDecimal amount){
         this.balance = this.balance.subtract(amount);
+    }
+
+    public Long getAccountNumber() {
+        return account.getNumber();
     }
 }

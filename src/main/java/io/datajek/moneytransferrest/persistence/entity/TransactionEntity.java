@@ -1,8 +1,9 @@
-package io.datajek.moneytransferrest.model;
+package io.datajek.moneytransferrest.persistence.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -11,11 +12,12 @@ import java.time.Instant;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class TransactionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = false, updatable = false)
     private Instant date;
     @Column(nullable = false, updatable = false)

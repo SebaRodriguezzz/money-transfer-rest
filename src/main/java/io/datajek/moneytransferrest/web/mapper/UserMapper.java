@@ -1,7 +1,7 @@
 package io.datajek.moneytransferrest.web.mapper;
 
 import io.datajek.moneytransferrest.web.dto.UserDTO;
-import io.datajek.moneytransferrest.model.UserEntity;
+import io.datajek.moneytransferrest.persistence.entity.UserEntity;
 import org.mapstruct.Mapper;
 import java.util.List;
 

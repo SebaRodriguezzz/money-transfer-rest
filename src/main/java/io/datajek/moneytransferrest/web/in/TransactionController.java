@@ -2,7 +2,7 @@ package io.datajek.moneytransferrest.web.in;
 
 import io.datajek.moneytransferrest.web.api.TransactionControllerAPI;
 import io.datajek.moneytransferrest.web.dto.TransactionDTO;
-import io.datajek.moneytransferrest.model.TransactionEntity;
+import io.datajek.moneytransferrest.persistence.entity.TransactionEntity;
 import io.datajek.moneytransferrest.business.TransactionService;
 import io.datajek.moneytransferrest.web.mapper.TransactionMapper;
 import lombok.RequiredArgsConstructor;
