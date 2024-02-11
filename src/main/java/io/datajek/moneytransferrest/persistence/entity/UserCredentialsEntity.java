@@ -20,4 +20,6 @@ public class UserCredentialsEntity {
     @OneToOne(mappedBy = "credentials", optional = false)
     private UserEntity user;
 
+    public UserCredentialsEntity(String johnDoe, String john321) {
+    }
 }
