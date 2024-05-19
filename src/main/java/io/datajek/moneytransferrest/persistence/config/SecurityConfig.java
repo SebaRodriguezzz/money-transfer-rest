@@ -1,4 +1,4 @@
-package io.datajek.moneytransferrest.config;
+package io.datajek.moneytransferrest.persistence.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

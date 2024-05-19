@@ -2,11 +2,13 @@ package io.datajek.moneytransferrest.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserCredentialsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,9 @@ public class UserCredentialsEntity {
     @OneToOne(mappedBy = "credentials", optional = false)
     private UserEntity user;
 
-    public UserCredentialsEntity(String johnDoe, String john321) {
+    public UserCredentialsEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
+
 }

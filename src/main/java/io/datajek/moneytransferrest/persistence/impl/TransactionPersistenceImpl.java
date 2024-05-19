@@ -2,39 +2,42 @@ package io.datajek.moneytransferrest.persistence.impl;
 
 import io.datajek.moneytransferrest.persistence.TransactionPersistence;
 import io.datajek.moneytransferrest.persistence.entity.TransactionEntity;
-import lombok.RequiredArgsConstructor;
+import io.datajek.moneytransferrest.persistence.repository.TransactionRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Repository
 public class TransactionPersistenceImpl  implements TransactionPersistence {
 
-    private final TransactionPersistence transactionPersistence;
+    private final TransactionRepository transactionRepository;
+
+    public TransactionPersistenceImpl(TransactionRepository transactionRepository) {
+        this.transactionRepository = transactionRepository;
+    }
 
     public List<TransactionEntity> findBySenderAccountNumber(Long accountNumber) {
-        return transactionPersistence.findBySenderAccountNumber(accountNumber);
+        return transactionRepository.findBySenderAccountNumber(accountNumber);
     }
 
     public List<TransactionEntity> findByReceiverAccountNumber(Long accountNumber) {
-        return transactionPersistence.findByReceiverAccountNumber(accountNumber);
+        return transactionRepository.findByReceiverAccountNumber(accountNumber);
     }
 
     public TransactionEntity save(TransactionEntity transaction) {
-        return transactionPersistence.save(transaction);
+        return transactionRepository.save(transaction);
     }
 
     public Optional<TransactionEntity> findById(Long id) {
-        return transactionPersistence.findById(id);
+        return transactionRepository.findById(id);
     }
 
     public List<TransactionEntity> findAll() {
-        return transactionPersistence.findAll();
+        return transactionRepository.findAll();
     }
 
     public void deleteById(Long id) {
-        transactionPersistence.deleteById(id);
+        transactionRepository.deleteById(id);
     }
 }

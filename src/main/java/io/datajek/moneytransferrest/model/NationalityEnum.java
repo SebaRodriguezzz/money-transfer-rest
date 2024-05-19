@@ -16,6 +16,5 @@ public enum NationalityEnum {
     FRANCE,
     GERMANY,
     ITALY,
-    SPAIN,
-    UNITED_KINGDOM
+    SPAIN
 }

@@ -3,6 +3,7 @@ package io.datajek.moneytransferrest.persistence.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.datajek.moneytransferrest.model.NationalityEnum;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,14 +17,13 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private NationalityEnum nationality;
 
@@ -43,15 +43,18 @@ public class UserEntity {
     @OneToMany(mappedBy = "receiver")
     private List<TransactionEntity> receivedTransactions;
 
-
-    @Column(nullable = false)
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "credentials_id", referencedColumnName = "id")
+    @JoinColumn(name = "credentials_id", referencedColumnName = "id", nullable = false)
     private UserCredentialsEntity credentials;
 
-    public UserEntity(String johnDoe, String usa, Date date, BigDecimal bigDecimal, int i, UserCredentialsEntity userCredentials) {
+    public UserEntity(String name, NationalityEnum nationality, Date birthDate, BigDecimal balance, long accountNumber, UserCredentialsEntity credentials) {
+        this.name = name;
+        this.nationality = nationality;
+        this.birthDate = birthDate;
+        this.balance = balance;
+        this.accountNumber = accountNumber;
+        this.credentials = credentials;
     }
-
     public void addBalance(BigDecimal amount){
         this.balance = this.balance.add(amount);
     }

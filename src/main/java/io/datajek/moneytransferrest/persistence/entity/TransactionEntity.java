@@ -18,17 +18,13 @@ public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, updatable = false)
     private Instant date;
-    @Column(nullable = false, updatable = false)
     @ManyToOne
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "sender_id", nullable = false, updatable = false)
     private UserEntity sender;
-    @Column(nullable = false, updatable = false)
     @ManyToOne
-    @JoinColumn(name = "receiver_id")
+    @JoinColumn(name = "receiver_id", nullable = false, updatable = false)
     private UserEntity receiver;
-    @Column(nullable = false, updatable = false)
     private BigDecimal amount;
 
     public TransactionEntity(Instant date, UserEntity sender, UserEntity receiver, BigDecimal amount) {
