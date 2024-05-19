@@ -31,7 +31,6 @@ public class UserController implements UserControllerAPI {
     public ResponseEntity<TransactionDTO> transferMoney(@RequestBody TransactionDTO transactionDTO, HttpSession session) {
         return ResponseEntity.ok(
                 transactionMapper.toTransactionDTO(
-                        //TODO: sacar casteo
                         userService.transferMoney(transactionDTO, (UserEntity) session.getAttribute("loggedInUser"))
                 )
         );
