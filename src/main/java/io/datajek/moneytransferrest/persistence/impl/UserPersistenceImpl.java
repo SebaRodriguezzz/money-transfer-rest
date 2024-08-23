@@ -19,7 +19,7 @@ public class UserPersistenceImpl implements UserPersistence {
         return userRepository.findByCredentialsUsername(senderUsername);
     }
 
-    public Optional<UserEntity> findByAccountNumber(Long accountNumber) {
+    public Optional<UserEntity> findByAccountNumber(long accountNumber) {
         return userRepository.findByAccountNumber(accountNumber);
     }
 
