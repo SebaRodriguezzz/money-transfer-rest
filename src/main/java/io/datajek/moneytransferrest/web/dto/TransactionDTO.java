@@ -19,10 +19,10 @@ public class TransactionDTO {
     private Instant date;
 
     @Schema(description = "Sender's account number", example = "123456789")
-    private Long senderAccountNumber;
+    private long senderAccountNumber;
 
     @Schema(description = "Receiver's account number", example = "987654321")
-    private Long receiverAccountNumber;
+    private long receiverAccountNumber;
 
     @Schema(description = "Transaction amount", example = "500.75")
     private BigDecimal amount;
