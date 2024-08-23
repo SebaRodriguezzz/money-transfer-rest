@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UserPersistence {
 
     Optional<UserEntity> findByCredentialsUsername(String senderUsername);
-    Optional<UserEntity> findByAccountNumber(Long accountNumber);
+    Optional<UserEntity> findByAccountNumber(long accountNumber);
     UserEntity save(UserEntity p);
     Optional<UserEntity> findById(Long id);
     List<UserEntity> findAll();
