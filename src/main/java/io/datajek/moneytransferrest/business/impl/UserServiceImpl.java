@@ -60,7 +60,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private void failIfInsufficientFunds(UserEntity user, BigDecimal amount) {
-        if (user.getBalance().compareTo(amount) < 0) {
+        boolean sufficientFunds = user.getBalance().compareTo(amount) > 0;
+        if (!sufficientFunds) {
             throw new InsufficientFundsException("Insufficient funds in sender's account");
         }
     }
@@ -68,11 +69,6 @@ public class UserServiceImpl implements UserService {
     private UserEntity findByAccountNumber(long accountNumber) {
         return userPersistence.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new UserNotFoundException("User with account number {" + accountNumber + "} not found"));
-    }
-
-    private UserEntity findByUsername(String username) {
-        return userPersistence.findByCredentialsUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User with username {" + username + "} not found"));
     }
 
 }
