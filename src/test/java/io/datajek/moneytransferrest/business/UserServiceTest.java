@@ -41,6 +41,14 @@ public class UserServiceTest {
         return user;
     }
 
+    private UserEntity createMockedResponse(Long id, long accountNumber, BigDecimal balance) {
+        UserEntity user = new UserEntity();
+        user.setId(id);
+        user.setAccountNumber(accountNumber);
+        user.setBalance(balance);
+        return user;
+    }
+
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -50,12 +58,8 @@ public class UserServiceTest {
     public void transferMoneySuccessful() {
         final BigDecimal amount = new BigDecimal("500.00");
         //GIVEN: Valid users for the transaction
-        UserEntity sender = createMockedResponse(1L);
-        sender.setAccountNumber(1234);
-        sender.setBalance(new BigDecimal("3000.00"));
-        UserEntity receiver = createMockedResponse(2L);
-        receiver.setAccountNumber(5678);
-        receiver.setBalance(new BigDecimal("1000.00"));
+        UserEntity sender = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
+        UserEntity receiver = createMockedResponse(2L, 5678, new BigDecimal("1000.00"));
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setId(1L);
         transactionDTO.setSenderAccountNumber(1234);
@@ -84,8 +88,7 @@ public class UserServiceTest {
         transactionDTO.setReceiverAccountNumber(1234);
 
         // WHEN: Calling transferMoney
-        UserEntity sender = createMockedResponse(1L);
-        sender.setAccountNumber(1234);
+        UserEntity sender = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
         when(userPersistence.findByAccountNumber(1234)).thenReturn(Optional.of(sender));
 
         // THEN: A SameAccountTransactionException should be thrown
@@ -100,13 +103,9 @@ public class UserServiceTest {
         transactionDTO.setReceiverAccountNumber(5678);
         transactionDTO.setAmount(new BigDecimal("5000.00"));
         // GIVEN: A sender with a balance less than the transaction amount
-        UserEntity sender = createMockedResponse(1L);
-        sender.setAccountNumber(1234);
-        sender.setBalance(new BigDecimal("3000.00"));
+        UserEntity sender = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
 
-        UserEntity receiver = createMockedResponse(2L);
-        receiver.setAccountNumber(5678);
-        receiver.setBalance(new BigDecimal("1000.00"));
+        UserEntity receiver = createMockedResponse(2L, 5678, new BigDecimal("1000.00"));
         when(userPersistence.findByAccountNumber(5678)).thenReturn(Optional.of(receiver));
 
         // WHEN: Calling transferMoney
@@ -122,9 +121,7 @@ public class UserServiceTest {
         transactionDTO.setReceiverAccountNumber(5678);
         transactionDTO.setAmount(new BigDecimal("5000.00"));
         // GIVEN: A sender with sufficient funds to complete the transaction
-        UserEntity sender = createMockedResponse(1L);
-        sender.setAccountNumber(1234);
-        sender.setBalance(new BigDecimal("3000.00"));
+        UserEntity sender = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
         when(userPersistence.findByAccountNumber(5678)).thenReturn(Optional.empty());
         // WHEN: Calling transferMoney
         // THEN: A UserNotFoundException should be thrown
