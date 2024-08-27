@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -68,6 +69,21 @@ public class TransactionServiceTest {
         assertEquals(new BigDecimal("1500.00"), receiver.getBalance());
         //AND: Check if the transaction is as expected
         assertEquals(transaction, expectedTransaction);
+    }
+
+    @Test
+    public void findByType(){
+        //GIVEN: A user and a transaction to be retrieved
+        UserEntity user = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
+        UserEntity user2 = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
+        TransactionEntity transaction = new TransactionEntity(Instant.now(), user, user2, new BigDecimal("500.00"));
+        String type = "sent";
+
+        when(transactionRepository.findBySenderAccountNumber(user.getAccountNumber())).thenReturn(List.of(transaction));
+        //WHEN: Retrieving transactions by type
+        List<TransactionEntity> sentTransactions = transactionService.findByType(user, type);
+        //THEN: Verify the transactions are as expected
+        assertEquals(sentTransactions, List.of(transaction));
     }
 
 }
