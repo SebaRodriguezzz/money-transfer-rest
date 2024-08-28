@@ -1,6 +1,7 @@
 package io.datajek.moneytransferrest.business;
 
 import io.datajek.moneytransferrest.business.impl.TransactionServiceImpl;
+import io.datajek.moneytransferrest.exception.transaction.TransactionFailedException;
 import io.datajek.moneytransferrest.persistence.UserPersistence;
 import io.datajek.moneytransferrest.persistence.entity.TransactionEntity;
 import io.datajek.moneytransferrest.persistence.entity.UserEntity;
@@ -70,6 +71,18 @@ public class TransactionServiceTest {
         //AND: Check if the transaction is as expected
         assertEquals(transaction, expectedTransaction);
     }
+
+    @Test
+    public void performTransactionFails(){
+        //GIVEN: Sender and amount but null receiver
+        final BigDecimal amount = new BigDecimal("500.00");
+        UserEntity sender = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
+        //WHEN: Calling the method with invalid arguments
+        //THEN: A TransactionFailedException should be thrown
+        assertThrows(TransactionFailedException.class, ()-> transactionService.performTransaction(null, sender, amount));
+    }
+
+
 
     @Test
     public void findByType(){
