@@ -204,7 +204,7 @@ public class UserServiceTest {
     @Test
     public void delete() {
         // GIVEN: An existing ID
-        long existingId = 123;
+        Long existingId = 123L;
         UserEntity existingUser = createMockedResponse(existingId);
 
         when(userPersistence.findById(existingId)).thenReturn(Optional.of(existingUser));
