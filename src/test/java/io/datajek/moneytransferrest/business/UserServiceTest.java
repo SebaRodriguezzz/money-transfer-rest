@@ -139,9 +139,9 @@ public class UserServiceTest {
     }
 
     @Test
-    public void findByIdUserTest() {
+    public void findById() {
         // GIVEN: An existing ID and a successful response
-        long existingId = 123;
+        Long existingId = 123L;
         UserEntity mockedResponse = createMockedResponse(existingId);
 
         when(userPersistence.findById(existingId)).thenReturn(Optional.of(mockedResponse));
@@ -155,7 +155,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void findAllUsersTest() {
+    public void findAll() {
         // GIVEN: A list of users
         UserEntity user1 = createMockedResponse(1L);
         UserEntity user2 = createMockedResponse(2L);
@@ -172,7 +172,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void saveUserTest() {
+    public void save() {
         // GIVEN: A user to save
         UserEntity user = createMockedResponse(1L);
         when(userPersistence.save(user)).thenReturn(user);
@@ -186,7 +186,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updateUserTest() {
+    public void update() {
         // GIVEN: An existing ID and a user to update
         Long existingId = 123L;
         UserEntity user = createMockedResponse(existingId);
@@ -202,7 +202,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void deleteUserTest() {
+    public void delete() {
         // GIVEN: An existing ID
         long existingId = 123;
         UserEntity existingUser = createMockedResponse(existingId);
