@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,7 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private List<TransactionEntity> findByAccountNumber(Long accountNumber) {
-        List<TransactionEntity> transactions = transactionRepository.findBySenderAccountNumber(accountNumber);
+        List<TransactionEntity> transactions = new ArrayList<>(transactionRepository.findBySenderAccountNumber(accountNumber));
         transactions.addAll(transactionRepository.findByReceiverAccountNumber(accountNumber));
         return transactions;
     }
