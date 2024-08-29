@@ -82,13 +82,11 @@ public class TransactionServiceTest {
         assertThrows(TransactionFailedException.class, ()-> transactionService.performTransaction(null, sender, amount));
     }
 
-
-
     @Test
-    public void findByType(){
+    public void findByTypeSent(){
         //GIVEN: A user and a transaction to be retrieved
         UserEntity user = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
-        UserEntity user2 = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
+        UserEntity user2 = createMockedResponse(2L, 1234, new BigDecimal("3000.00"));
         TransactionEntity transaction = new TransactionEntity(Instant.now(), user, user2, new BigDecimal("500.00"));
         String type = "sent";
 
@@ -99,4 +97,75 @@ public class TransactionServiceTest {
         assertEquals(sentTransactions, List.of(transaction));
     }
 
+    @Test
+    public void findByTypeReceived(){
+        //GIVEN: A user and a transaction to be retrieved
+        UserEntity user = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
+        UserEntity user2 = createMockedResponse(2L, 1234, new BigDecimal("3000.00"));
+        TransactionEntity transaction = new TransactionEntity(Instant.now(), user, user2, new BigDecimal("500.00"));
+        String type = "received";
+
+        when(transactionRepository.findByReceiverAccountNumber(user.getAccountNumber())).thenReturn(List.of(transaction));
+        //WHEN: Retrieving transactions by type
+        List<TransactionEntity> receivedTransactions = transactionService.findByType(user, type);
+        //THEN: Verify the transactions are as expected
+        assertEquals(receivedTransactions, List.of(transaction));
+    }
+
+    @Test
+    public void findByTypeIsntValid(){
+        //GIVEN: A user and a transaction to be retrieved
+        UserEntity user = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
+        UserEntity user2 = createMockedResponse(2L, 1234, new BigDecimal("3000.00"));
+        TransactionEntity transactionSent = new TransactionEntity(Instant.now(), user, user2, new BigDecimal("500.00"));  // Sent transaction
+        TransactionEntity transactionReceived = new TransactionEntity(Instant.now(), user2, user, new BigDecimal("300.00"));  // Received transaction
+        String type = "invalid";
+
+        when(transactionRepository.findBySenderAccountNumber(user.getAccountNumber())).thenReturn(List.of(transactionSent));
+        when(transactionRepository.findByReceiverAccountNumber(user.getAccountNumber())).thenReturn(List.of(transactionReceived));
+        //WHEN: Retrieving transactions by type
+        List<TransactionEntity> transactions = transactionService.findByType(user, type);
+        //THEN: Verify the transactions are as expected
+        assertNotNull(transactions);
+        assertEquals(2, transactions.size());
+        assertEquals(transactionSent, transactions.get(0));
+        assertEquals(transactionReceived, transactions.get(1));
+
+    }
+
+    @Test
+    public void findById(){
+        //GIVEN: A transaction to be retrieved
+        TransactionEntity transaction = new TransactionEntity(Instant.now(), null, null, new BigDecimal("500.00"));
+        when(transactionRepository.findById(1L)).thenReturn(java.util.Optional.of(transaction));
+        //WHEN: Retrieving the transaction
+        TransactionEntity actualTransaction = transactionService.findById(1L);
+        //THEN: Verify the transaction is as expected
+        assertEquals(transaction, actualTransaction);
+    }
+
+    @Test
+    public void findAll(){
+        //GIVEN: A list of transactions to be retrieved
+        TransactionEntity transaction1 = new TransactionEntity(Instant.now(), null, null, new BigDecimal("500.00"));
+        TransactionEntity transaction2 = new TransactionEntity(Instant.now(), null, null, new BigDecimal("500.00"));
+        when(transactionRepository.findAll()).thenReturn(List.of(transaction1, transaction2));
+        //WHEN: Retrieving all transactions
+        List<TransactionEntity> transactions = transactionService.findAll();
+        //THEN: Verify the transactions are as expected
+        assertNotNull(transactions);
+        assertEquals(2, transactions.size());
+        assertEquals(transaction1, transactions.get(0));
+        assertEquals(transaction2, transactions.get(1));
+    }
+
+    @Test
+    public void delete(){
+        //GIVEN: A transaction to be deleted
+        TransactionEntity transaction = new TransactionEntity(Instant.now(), null, null, new BigDecimal("500.00"));
+        //WHEN: Deleting the transaction
+        transactionService.delete(1L);
+        //THEN: Verify the transaction was deleted
+        verify(transactionRepository).deleteById(1L);
+    }
 }
