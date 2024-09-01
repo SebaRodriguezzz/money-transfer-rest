@@ -65,6 +65,8 @@ public class TransactionServiceTest {
         //THEN: Verify the users are saved
         verify(userPersistence).save(sender);
         verify(userPersistence).save(receiver);
+        //AND: Verify the transaction was saved
+        verify(transactionRepository).save(any(TransactionEntity.class));
         //AND: Check if the balance was updated correctly
         assertEquals(new BigDecimal("2500.00"), sender.getBalance());
         assertEquals(new BigDecimal("1500.00"), receiver.getBalance());
@@ -80,6 +82,7 @@ public class TransactionServiceTest {
         //WHEN: Calling the method with invalid arguments
         //THEN: A TransactionFailedException should be thrown
         assertThrows(TransactionFailedException.class, ()-> transactionService.performTransaction(null, sender, amount));
+        verify(transactionRepository, never()).save(any(TransactionEntity.class));
     }
 
     @Test

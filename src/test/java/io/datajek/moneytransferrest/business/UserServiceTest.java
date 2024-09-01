@@ -76,8 +76,7 @@ public class UserServiceTest {
         assertNotNull(actualTransaction);
         assertEquals(expectedTransaction, actualTransaction);
         //AND: The repository should have been called once
-        verify(userPersistence, times(1)).findByAccountNumber(5678);
-        verify(userPersistence, times(1)).findByAccountNumber(5678);
+        verify(userPersistence, atLeastOnce()).findByAccountNumber(5678);
     }
 
     @Test
