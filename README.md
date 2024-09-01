@@ -2,17 +2,13 @@
 This RESTful API, created using Spring and Spring Boot, is a mock implementation for user authentication and money transfers between users. It employs an H2 database for minimalistic data storage and includes exception handling.
 
 ### Key Features
-#### Registration
-Enables new user registration, securely storing user information.
-#### User Authentication
-Offers secure login functionality using encrypted credentials.
-#### Money Transfer Functionality
-Allows for simple money transfer operations between user accounts.
-#### Database Integration
-Utilizes an H2 in-memory database for storing user-related information.
-#### Exception Handling
-Implements basic exception handling to maintain stability during user transactions.
+Users can securely register new accounts and authenticate through a robust login system. The API employs password encoding to ensure that user credentials are stored and processed securely.
 
+Money transfers between user accounts are straightforward and facilitated by the API. The system handles transactions efficiently, allowing users to transfer funds seamlessly while ensuring data integrity. Users can access their transaction history and view detailed information about both sent and received transactions.
+
+Basic exception handling is implemented to maintain stability and manage any errors that may occur during operations. The API is designed to handle unexpected issues gracefully, providing a reliable user experience and minimizing disruptions.
+
+Unit tests have been implemented using JUnit and Mockito to verify the functionality and reliability of the API.
 ### Endpoints
 * **POST /register**: Register new user account.
 * **POST /login**: Authenticate user credentials.
@@ -23,10 +19,14 @@ Implements basic exception handling to maintain stability during user transactio
 * **POST /logout**: Log out from user account.
 
 ### Technologies Used
-* **Spring**: Lightweight framework for building Java applications.
-* **Spring Boot**: Simplifies the setup and development of Spring applications.
-* **Spring Security**: Authentication and access-control framework for Spring applications.
-* **Spring Data JPA**: Simplifies the implementation of JPA-based repositories.
-* **Hibernate**: ORM framework for mapping Java objects to relational database tables.
-* **H2 Database**: Lightweight, in-memory database for data storage.
-* **Maven**: Build automation tool for Java projects.
+* **Java**
+* **Spring**
+* **Spring Boot**
+* **Spring Security**
+* **Spring Data JPA**
+* **Hibernate**
+* **H2 Database**
+* **Maven**
+* **JUnit**
+* **Mockito**
+
