@@ -1,6 +1,7 @@
 package io.datajek.moneytransferrest.business;
 
 import io.datajek.moneytransferrest.business.impl.AuthenticationServiceImpl;
+import io.datajek.moneytransferrest.exception.user.UserAlreadyRegisteredException;
 import io.datajek.moneytransferrest.persistence.UserCredentialsPersistence;
 import io.datajek.moneytransferrest.persistence.UserPersistence;
 import io.datajek.moneytransferrest.persistence.entity.UserCredentialsEntity;
@@ -43,7 +44,7 @@ public class AuthenticationServiceTest {
 
     @Test
     public void authenticateSuccessful(){
-        //GIVEN: Valid credentials
+        //GIVEN: Valid credentials for login
         CredentialsDTO credentialsDTO = new CredentialsDTO();
         credentialsDTO.setUsername("user");
         credentialsDTO.setPassword("pass");
@@ -87,6 +88,46 @@ public class AuthenticationServiceTest {
         //THEN: User should be logged in
         assertEquals(expectedResponse, response);
         verify(session, never()).setAttribute(anyString(), any());
+    }
+
+    @Test
+    public void logout(){
+        //GIVEN: A session to logout
+        HttpSession session = mock(HttpSession.class);
+        ResponseEntity<String> expectedResponse = ResponseEntity.ok("Successful logout");
+        //WHEN: Logging out
+        ResponseEntity<String> response = authenticationService.logout(session);
+        //THEN: User should be logged out
+        assertEquals(expectedResponse, response);
+        verify(session, atLeastOnce()).invalidate();
+    }
+
+    @Test
+    public void registerUserSuccessful(){
+        //GIVEN: Valid credentials for register
+        UserEntity user = new UserEntity();
+        UserCredentialsEntity credentials = new UserCredentialsEntity("user","pass");
+        user.setCredentials(credentials);
+        when(userPersistence.save(user)).thenReturn(user);
+        ResponseEntity<String> expectedResponse = ResponseEntity.ok("User registered successfully");
+        //WHEN: Calling register user method
+        ResponseEntity<String> response = authenticationService.registerUser(user);
+        //THEN: The user should be registered
+        assertEquals(expectedResponse, response);
+        verify(userPersistence, atLeastOnce()).save(user);
+    }
+
+    @Test
+    public void registerUserAlreadyRegistered(){
+        //GIVEN: An user for register
+        UserEntity user = new UserEntity();
+        UserCredentialsEntity credentials = new UserCredentialsEntity("user","pass");
+        user.setCredentials(credentials);
+        //WHEN: Verifying that the user is already registered
+        when(credentialsPersistence.findByUsername(user.getCredentials().getUsername())).thenReturn(Optional.of(user.getCredentials()));
+        //THEN: A UserAlreadyRegisteredException should be thrown
+        assertThrows(UserAlreadyRegisteredException.class, () -> authenticationService.registerUser(user));
+        verify(userPersistence, never()).save(any(UserEntity.class));
     }
 }
 
