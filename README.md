@@ -1,7 +1,6 @@
 # Money Transfer Rest API
-This RESTful API, created using Spring and Spring Boot, is a mock implementation for user authentication and money transfers between users. It employs an H2 database for minimalistic data storage and includes exception handling.
+This project is a RESTful API built with Spring and Spring Boot, primarily designed for managing money transfers between users.
 
-### Key Features
 Users can securely register new accounts and authenticate through a robust login system. The API employs password encoding to ensure that user credentials are stored and processed securely.
 
 Money transfers between user accounts are straightforward and facilitated by the API. The system handles transactions efficiently, allowing users to transfer funds seamlessly while ensuring data integrity. Users can access their transaction history and view detailed information about both sent and received transactions.
