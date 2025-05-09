@@ -32,7 +32,7 @@ public class UserEntity {
     @Column(nullable = false)
     private BigDecimal balance;
     @Column(nullable = false, updatable = false)
-    private long accountNumber;
+    private Long accountNumber;
 
     @Column
     @OneToMany(mappedBy = "sender")
@@ -46,7 +46,7 @@ public class UserEntity {
     @JoinColumn(name = "credentials_id", referencedColumnName = "id", nullable = false)
     private UserCredentialsEntity credentials;
 
-    public UserEntity(String name, NationalityEnum nationality, Date birthDate, BigDecimal balance, long accountNumber, UserCredentialsEntity credentials) {
+    public UserEntity(String name, NationalityEnum nationality, Date birthDate, BigDecimal balance, Long accountNumber, UserCredentialsEntity credentials) {
         this.name = name;
         this.nationality = nationality;
         this.birthDate = birthDate;

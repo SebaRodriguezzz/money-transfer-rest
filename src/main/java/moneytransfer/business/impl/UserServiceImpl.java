@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private UserEntity findByAccountNumber(long accountNumber) {
+    private UserEntity findByAccountNumber(Long accountNumber) {
         return userPersistence.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new UserNotFoundException("User with account number {" + accountNumber + "} not found"));
     }

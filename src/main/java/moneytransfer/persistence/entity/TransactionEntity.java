@@ -24,6 +24,8 @@ public class TransactionEntity {
     @ManyToOne
     @JoinColumn(name = "receiver_id", nullable = false, updatable = false)
     private UserEntity receiver;
+    private Long senderAccountNumber;
+    private Long receiverAccountNumber;
     private BigDecimal amount;
 
     public TransactionEntity(Instant date, UserEntity sender, UserEntity receiver, BigDecimal amount) {

@@ -37,7 +37,7 @@ public class TransactionServiceTest {
         return user;
     }
 
-    private UserEntity createMockedResponse(Long id, long accountNumber, BigDecimal balance) {
+    private UserEntity createMockedResponse(Long id, Long accountNumber, BigDecimal balance) {
         UserEntity user = new UserEntity();
         user.setId(id);
         user.setAccountNumber(accountNumber);
@@ -54,8 +54,8 @@ public class TransactionServiceTest {
     public void performTransactionSuccessful(){
         final BigDecimal amount = new BigDecimal("500.00");
         //GIVEN: Valid users for performing the transaction
-        UserEntity sender = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
-        UserEntity receiver = createMockedResponse(2L, 5678, new BigDecimal("1000.00"));
+        UserEntity sender = createMockedResponse(1L, 1234L, new BigDecimal("3000.00"));
+        UserEntity receiver = createMockedResponse(2L, 5678L, new BigDecimal("1000.00"));
 
         TransactionEntity expectedTransaction = new TransactionEntity(Instant.now(), sender, receiver, amount);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(expectedTransaction);
@@ -77,7 +77,7 @@ public class TransactionServiceTest {
     public void performTransactionFails(){
         //GIVEN: Sender and amount but null receiver
         final BigDecimal amount = new BigDecimal("500.00");
-        UserEntity sender = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
+        UserEntity sender = createMockedResponse(1L, 1234L, new BigDecimal("3000.00"));
         //WHEN: Calling the method with invalid arguments
         //THEN: A TransactionFailedException should be thrown
         assertThrows(TransactionFailedException.class, ()-> transactionService.performTransaction(null, sender, amount));
@@ -87,8 +87,8 @@ public class TransactionServiceTest {
     @Test
     public void findByTypeSent(){
         //GIVEN: A user and a transaction to be retrieved
-        UserEntity user = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
-        UserEntity user2 = createMockedResponse(2L, 1234, new BigDecimal("3000.00"));
+        UserEntity user = createMockedResponse(1L, 1234L, new BigDecimal("3000.00"));
+        UserEntity user2 = createMockedResponse(2L, 1234L, new BigDecimal("3000.00"));
         TransactionEntity transaction = new TransactionEntity(Instant.now(), user, user2, new BigDecimal("500.00"));
         String type = "sent";
 
@@ -102,8 +102,8 @@ public class TransactionServiceTest {
     @Test
     public void findByTypeReceived(){
         //GIVEN: A user and a transaction to be retrieved
-        UserEntity user = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
-        UserEntity user2 = createMockedResponse(2L, 1234, new BigDecimal("3000.00"));
+        UserEntity user = createMockedResponse(1L, 1234L, new BigDecimal("3000.00"));
+        UserEntity user2 = createMockedResponse(2L, 1234L, new BigDecimal("3000.00"));
         TransactionEntity transaction = new TransactionEntity(Instant.now(), user, user2, new BigDecimal("500.00"));
         String type = "received";
 
@@ -117,8 +117,8 @@ public class TransactionServiceTest {
     @Test
     public void findByTypeIsntValid(){
         //GIVEN: A user and a transaction to be retrieved
-        UserEntity user = createMockedResponse(1L, 1234, new BigDecimal("3000.00"));
-        UserEntity user2 = createMockedResponse(2L, 1234, new BigDecimal("3000.00"));
+        UserEntity user = createMockedResponse(1L, 1234L, new BigDecimal("3000.00"));
+        UserEntity user2 = createMockedResponse(2L, 1234L, new BigDecimal("3000.00"));
         TransactionEntity transactionSent = new TransactionEntity(Instant.now(), user, user2, new BigDecimal("500.00"));  // Sent transaction
         TransactionEntity transactionReceived = new TransactionEntity(Instant.now(), user2, user, new BigDecimal("300.00"));  // Received transaction
         String type = "invalid";
